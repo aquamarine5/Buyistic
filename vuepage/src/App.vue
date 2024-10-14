@@ -1,10 +1,13 @@
 <script setup>
+import axios from 'axios';
 import ShoppingItem from './item/ShoppingItem.vue';
 import utils from './utils';
-var items_data=[]
+import { ref } from 'vue';
+
+var items_data=ref([])
 axios.get(utils.host + "/get_items").then(
     response => {
-        items_data=response.data.data
+        items_data.value=response.data.data
     }
 )
 </script>
@@ -21,3 +24,17 @@ axios.get(utils.host + "/get_items").then(
             :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.itemid"/>
     </div>
 </template>
+
+<style>
+.app_topbar{
+    background-color:blueviolet;
+}
+.app_title{
+    padding-top: 15px;
+    padding-inline: 20px;
+    height: 40px;
+    font-size: larger;
+    color:#f5f5f5;
+    font-weight: 800;
+}
+</style>

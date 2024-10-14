@@ -56,7 +56,7 @@ public class ItemsController {
         try {
             jdbcTemplate.execute(String.format("""
                             INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice) VALUES
-                            (%s, %s, %s, %s, %s)"""
+                            ('%s', '%s', '%s', %s, %s)"""
                     , imgurl, title, detail, nowprice, rawprice));
             result.put("result", "OK");
             return result.toJSONString();
@@ -71,13 +71,13 @@ public class ItemsController {
     private void CheckDatabaseStatus() {
         if (!IsDatabaseExisted()) {
             jdbcTemplate.execute("""
-                    CREATE TABLE IF NOT EXISTS shopping.items {
+                    CREATE TABLE IF NOT EXISTS shopping.items (
                     imgurl TEXT NOT NULL,
                     nowprice FLOAT NOT NULL,
                     rawprice FLOAT NOT NULL,
                     title TEXT NOT NULL,
                     detail TEXT NOT NULL,
-                    id INT PRIMARY KEY AUTO_INCREMENT=1000
+                    id INT PRIMARY KEY AUTO_INCREMENT
                     ) CHARACTER SET utf8mb4""");
         }
     }
