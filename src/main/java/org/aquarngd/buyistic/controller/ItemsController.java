@@ -1,4 +1,4 @@
-package org.aquarngd.shopping.controller;
+package org.aquarngd.buyistic.controller;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;

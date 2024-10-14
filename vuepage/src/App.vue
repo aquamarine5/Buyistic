@@ -15,7 +15,7 @@ axios.get(utils.host + "/get_items").then(
 <template>
     <div class="app_topbar">
         <div class="app_title">
-            Shopping
+            Buyistic
         </div>
     </div>
     <div class="items_container">
