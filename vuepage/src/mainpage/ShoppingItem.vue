@@ -8,7 +8,8 @@ const props=defineProps([
     "detail",
     "nowprice",
     "rawprice",
-    "itemid"
+    "itemid",
+    "type"
 ])
 
 function jumpToBuyPage(){
