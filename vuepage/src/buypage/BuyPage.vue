@@ -19,7 +19,23 @@ axios.get(utils.host+"/get_item?id="+props.id).then(response=>{
         Buyistic: 详情
     </Topbar>
     <div class="buypage_container" v-if="data!={}">
-
+        <img class="buypage_img" :src="data.imgurl">
+        <div class="buypage_content">
+            <div class="buypage_title">
+                {{ data.title }}
+            </div>
+            <div class="buypage_detail">
+                {{ data.detail }}
+            </div>
+            <div class="buypage_prices">
+                <div class="buypage_nowprice">
+                    {{ data.nowprice }}
+                </div>
+                <div class="buypage_rawprice">
+                    {{ data.rawprice }}
+                </div>
+            </div>
+        </div>
     </div>
     <div class="buypage_wait" v-else>
         请等待网络相应。
