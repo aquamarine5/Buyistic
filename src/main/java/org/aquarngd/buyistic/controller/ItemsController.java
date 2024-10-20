@@ -27,7 +27,8 @@ public class ItemsController {
     @CrossOrigin(origins = "*")
     public String GetItem(@RequestParam("id") String id) {
         CheckDatabaseStatus();
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(String.format("SELECT * FROM `items` WHERE id = %s", id));
+        String query = "SELECT * FROM `items` WHERE id = ?";
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(query, id);
         JSONObject result = new JSONObject();
         if (sqlRowSet.next()) {
             result.put("status", "OK");
