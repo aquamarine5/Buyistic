@@ -22,28 +22,27 @@ public class ItemsController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-
     @RequestMapping("/get_item")
     @CrossOrigin(origins = "*")
-    public String GetItem(@RequestParam("id") String id){
+    public String GetItem(@RequestParam("id") String id) {
         CheckDatabaseStatus();
-        SqlRowSet sqlRowSet=jdbcTemplate.queryForRowSet(String.format("SELECT * FROM `items` WHERE id = %s",id));
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(String.format("SELECT * FROM `items` WHERE id = %s", id));
         JSONObject result = new JSONObject();
-        if(sqlRowSet.next()){
-            result.put("status","OK");
-            result.put("result",new JSONObject(Map.ofEntries(
+        if (sqlRowSet.next()) {
+            result.put("status", "OK");
+            result.put("result", new JSONObject(Map.ofEntries(
                     Map.entry("imgurl", sqlRowSet.getString("imgurl")),
                     Map.entry("nowprice", sqlRowSet.getFloat("nowprice")),
                     Map.entry("rawprice", sqlRowSet.getFloat("rawprice")),
                     Map.entry("title", sqlRowSet.getString("title")),
                     Map.entry("detail", sqlRowSet.getString("detail")),
                     Map.entry("id", sqlRowSet.getInt("id")),
-                    Map.entry("categories",sqlRowSet.getString("categories")),
-                    Map.entry("type",sqlRowSet.getInt("type")),
-                    Map.entry("introductions",sqlRowSet.getString("introductions"))
+                    Map.entry("categories", sqlRowSet.getString("categories")),
+                    Map.entry("type", sqlRowSet.getInt("type")),
+                    Map.entry("introductions", sqlRowSet.getString("introductions"))
             )));
-        }else{
-            result.put("status","ITEM_NOT_EXIST");
+        } else {
+            result.put("status", "ITEM_NOT_EXIST");
         }
         return result.toJSONString();
     }
@@ -63,7 +62,7 @@ public class ItemsController {
                     Map.entry("title", sqlRowSet.getString("title")),
                     Map.entry("detail", sqlRowSet.getString("detail")),
                     Map.entry("id", sqlRowSet.getInt("id")),
-                    Map.entry("type",sqlRowSet.getInt("type"))
+                    Map.entry("type", sqlRowSet.getInt("type"))
             )));
         }
         result.put("data", resultSet);
@@ -87,7 +86,7 @@ public class ItemsController {
             jdbcTemplate.execute(String.format("""
                             INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
                             ('%s', '%s', '%s', %s, %s, '%s', %s, '%s')"""
-                    , imgurl, title, detail, nowprice, rawprice,categories,type,introductions));
+                    , imgurl, title, detail, nowprice, rawprice, categories, type, introductions));
             result.put("result", "OK");
             return result.toJSONString();
         } catch (Exception e) {

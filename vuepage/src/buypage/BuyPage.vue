@@ -3,14 +3,15 @@ import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const props=defineProps([
     "id"
 ])
 const data=ref({})
 
-axios.get(utils.host+"/get_item?id="+props.id).then(response=>{
-    data.value=response.data
+axios.get(utils.host+"/get_item?id="+useRoute().params.id).then(response=>{
+    data.value=response.data.result
 })
 </script>
 
@@ -38,6 +39,39 @@ axios.get(utils.host+"/get_item?id="+props.id).then(response=>{
         </div>
     </div>
     <div class="buypage_wait" v-else>
-        请等待网络相应。
+        请等待网络响应。
     </div>
 </template>
+
+<style>
+.buypage_container{
+    margin: 16px;
+}
+.buypage_img{
+    width: 1vw;
+}
+.buypage_title{
+    font-weight: 600;
+    font-size: larger;
+}
+.buypage_detail{
+    color:gray;
+    font-size: small;
+}
+.buypage_prices{
+    display: flex;
+    margin-block: 8px;
+    align-items: center;
+}
+.buypage_rawprice{
+    text-decoration: line-through;
+    padding-left: 5px;
+    font-size: smaller;
+    color:gray;
+}
+.buypage_nowprice{
+    color:red;
+    font-weight: 600;
+    font-size: larger;
+}
+</style>
