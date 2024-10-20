@@ -40,8 +40,8 @@ public class AccountController {
             }
         } else {
             UUID uuid = UUID.randomUUID();
-            jdbcTemplate.execute(String.format("insert into `accounts` (`uuid`,`username`,`password`) values ('%s','%s','%s')",
-                    uuid, username, password));
+            jdbcTemplate.update("insert into `accounts` (`uuid`,`username`,`password`) values (?, ?, ?)",
+                    uuid.toString(), username, password);
             response.put("status", "newaccount");
             response.put("result", new JSONObject(Map.ofEntries(
                     Map.entry("username", username),
