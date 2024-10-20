@@ -1,17 +1,20 @@
 <script setup>
 import utils from '@/utils';
-import { ArrowDown } from '@element-plus/icons-vue/dist/types';
 import axios from 'axios';
-import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
-
+import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 const uuid = ref(localStorage.getItem("userid"))
 const userdata = ref({})
-if (uuid != null) {
+const router = useRouter()
+if (uuid.value != null) {
     axios.get(utils.host + "/get_user?userid=" + uuid.value).then(response => {
         userdata.value = response.data.result
     })
 }
-
+function login() {
+    router.push('login')
+}
 function logout() {
     localStorage.removeItem("uuid")
     uuid.value = null
@@ -27,18 +30,37 @@ function logout() {
                 <ElIcon>
                     <ArrowDown />
                 </ElIcon>
-                <ElDropdownMenu>
-                    <ElDropdownItem>
-                        <RouterLink to="orders">订单</RouterLink>
-                    </ElDropdownItem>
-                    <ElDropdownItem @click="logout">
-                        登出
-                    </ElDropdownItem>
-                </ElDropdownMenu>
+                <template #dropdown>
+                    <ElDropdownMenu>
+                        <ElDropdownItem>
+                            <RouterLink to="orders">订单</RouterLink>
+                        </ElDropdownItem>
+                        <ElDropdownItem @click="logout">
+                            登出
+                        </ElDropdownItem>
+                    </ElDropdownMenu>
+                </template>
             </ElDropdown>
         </div>
         <div class="accdper_nologin" v-else>
-            <RouterLink to="login">登录</RouterLink>
+            <ElButton type="primary" @click="login">登录</ElButton>
         </div>
     </div>
 </template>
+<style>
+ElDropdownItem{
+    cursor: pointer;
+}
+.accdper_username {
+    color: white;
+    cursor: pointer;
+}
+
+.accdper_container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 20px;
+
+}
+</style>

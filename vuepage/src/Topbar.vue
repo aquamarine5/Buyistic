@@ -7,20 +7,24 @@ import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
         <div class="app_title">
             <slot></slot>
         </div>
-        <AccountStatusDisplayer/>
+        <AccountStatusDisplayer />
     </div>
 </template>
 
 <style>
-
-.app_topbar{
-    background-color:blueviolet;
+.app_topbar {
+    background-color: blueviolet;
+    display: flex;
+    align-items: center;
 }
-.app_title{
+
+.app_title {
+    white-space: nowrap;
     padding-top: 15px;
     padding-inline: 20px;
     height: 40px;
     font-size: larger;
-    color:#f5f5f5;
+    color: #f5f5f5;
     font-weight: 800;
-}</style>
+}
+</style>

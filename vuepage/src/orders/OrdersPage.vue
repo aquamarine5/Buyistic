@@ -14,6 +14,14 @@ axios.get(utils.host+"/orders?userid="+localStorage.getItem("userid")).then(resp
         Buyistic: 全部订单
     </Topbar>
     <div class="orders_container">
-
+        <div class="orders_item" v-for="order in ordersData">
+            
+        </div>
     </div>
 </template>
+
+<style>
+.orders_container{
+    margin: 16px;
+}
+</style>

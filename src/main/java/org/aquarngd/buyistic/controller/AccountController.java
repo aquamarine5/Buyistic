@@ -40,7 +40,7 @@ public class AccountController {
             }
         } else {
             UUID uuid = UUID.randomUUID();
-            jdbcTemplate.execute(String.format("insert into `accounts` (`uuid`,`username`,`password`) values (?,?,?)",
+            jdbcTemplate.execute(String.format("insert into `accounts` (`uuid`,`username`,`password`) values ('%s','%s','%s')",
                     uuid, username, password));
             response.put("status", "newaccount");
             response.put("result", new JSONObject(Map.ofEntries(
@@ -50,7 +50,18 @@ public class AccountController {
 
         return response.toJSONString();
     }
-
+    @GetMapping("/get_user")
+    @CrossOrigin(origins = "*")
+    public String GetUser(@RequestParam String userid) {
+        SqlRowSet sqlRowSet=jdbcTemplate.queryForRowSet("select * from buyistic.accounts where accounts.uuid=?", userid);
+        JSONObject response = new JSONObject();
+        if (sqlRowSet.next()) {
+            response.put("result", new JSONObject(Map.ofEntries(
+                    Map.entry("name",sqlRowSet.getString("username"))
+            )));
+        }
+        return response.toJSONString();
+    }
     private void CheckDatabase() {
         if (!IsDatabaseExisted())
             jdbcTemplate.execute("""

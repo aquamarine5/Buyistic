@@ -5,11 +5,13 @@ import VWave from 'v-wave'
 import { createWebHistory, createRouter } from 'vue-router'
 import MainPage from './mainpage/MainPage.vue'
 import App from './App.vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
 
 const routes = [
     { path: '/', component: MainPage, name: "app" },
+    {path:"/pay/:id",component:()=>import("@/payment/PayPage.vue"),name:"pay"},
     { path: "/orders", component: () => import("@/orders/OrdersPage.vue"), name: "orders" },
     { path: "/login", component: () => import("@/account/LoginPage.vue"), name: "login" },
     { path: '/buy/:id', component: () => import('@/buypage/BuyPage.vue'), name: "buy" },
@@ -22,5 +24,8 @@ const router = createRouter({
 app.use(router)
 app.use(ElementPlus)
 app.use(VWave)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+  }
 app.mount('#app')
 

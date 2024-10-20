@@ -5,18 +5,24 @@ import axios from 'axios';
 import { ElButton } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
-const props=defineProps([
+const router = useRouter()
+const route=useRoute()
+const props = defineProps([
     "id"
 ])
-const data=ref({})
+const data = ref({})
 
-axios.get(utils.host+"/get_item?id="+useRoute().params.id).then(response=>{
-    data.value=response.data.result
+axios.get(utils.host + "/get_item?id=" + route.params.id).then(response => {
+    data.value = response.data.result
 })
 
-function buyit(){
-    useRouter().push("pay")
+function buyit() {
+    router.push({
+        name:"pay",
+        params: {
+            id: route.params.id
+        }
+    })
 }
 </script>
 
@@ -24,7 +30,7 @@ function buyit(){
     <Topbar>
         Buyistic: 详情
     </Topbar>
-    <div class="buypage_container" v-if="data!={}">
+    <div class="buypage_container" v-if="data != {}">
         <img class="buypage_img" :src="data.imgurl">
         <div class="buypage_content">
             <div class="buypage_title">
@@ -52,33 +58,39 @@ function buyit(){
 </template>
 
 <style>
-.buypage_container{
+.buypage_container {
     margin: 16px;
 }
-.buypage_img{
+
+.buypage_img {
     width: 1vw;
 }
-.buypage_title{
+
+.buypage_title {
     font-weight: 600;
     font-size: larger;
 }
-.buypage_detail{
-    color:gray;
+
+.buypage_detail {
+    color: gray;
     font-size: small;
 }
-.buypage_prices{
+
+.buypage_prices {
     display: flex;
     margin-block: 8px;
     align-items: center;
 }
-.buypage_rawprice{
+
+.buypage_rawprice {
     text-decoration: line-through;
     padding-left: 5px;
     font-size: smaller;
-    color:gray;
+    color: gray;
 }
-.buypage_nowprice{
-    color:red;
+
+.buypage_nowprice {
+    color: red;
     font-weight: 600;
     font-size: larger;
 }

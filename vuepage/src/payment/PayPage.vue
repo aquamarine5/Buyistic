@@ -5,16 +5,23 @@ import axios from 'axios';
 import { ElButton } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-const itemData=ref({})
-const isLoaded=ref(false)
-axios.get(utils.host+"/get_item?id="+useRoute().params.id).then(response=>{
-    isLoaded=true
-    itemData.value=response.data.result
+const itemData = ref({})
+const isLoaded = ref(false)
+const route = useRoute()
+const router = useRouter()
+axios.get(utils.host + "/get_item?id=" + useRoute().params.id).then(response => {
+    isLoaded.value = true
+    itemData.value = response.data.result
 })
-function afterpay(){
-    axios.get(utils.host+"/buyit?userid="+localStorage.getItem("userid")+"&itemid="+useRoute().params.id).then(response=>{
-        useRouter().push('orders')
+function afterpay() {
+    axios.get(utils.host + "/buyit?userid=" + localStorage.getItem("userid") + "&itemid=" + route.params.id+"&price="+itemData.value.nowprice).then(response => {
+        router.push({
+            name:"orders"
+        })
     })
+}
+function back() {
+    router.back()
 }
 </script>
 
@@ -30,7 +37,7 @@ function afterpay(){
             <div class="payment_item">
                 <img class="payment_img" :src="itemData.imgurl">
                 <div style="display: flex;">
-                    <div class="payment_title" >
+                    <div class="payment_title">
                         {{ itemData.title }}
                     </div>
                     <div class="payment_const">
@@ -40,14 +47,20 @@ function afterpay(){
             </div>
         </div>
     </div>
-    <img :src="utils.host+'/assets/img/pay_qrcode.png'">
-    <img :src="utils.host+'/assets/img/contact_qrcode.png'">
+    <img :src="utils.host + '/assets/img/pay_qrcode.png'">
+    <img :src="utils.host + '/assets/img/contact_qrcode.png'">
     <div class="payment_afterpay">
         <ElButton @click="afterpay" type="primary" v-wave>
             付款完成
         </ElButton>
-        <ElButton @click="useRouter().back()" type="error" v-wave>
+        <ElButton @click="back" type="error" v-wave>
             不想要了
         </ElButton>
     </div>
 </template>
+
+<style>
+.payment_container{
+    margin: 16px;
+}
+</style>

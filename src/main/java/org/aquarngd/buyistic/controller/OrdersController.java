@@ -45,13 +45,13 @@ public class OrdersController {
         return response.toJSONString();
     }
 
-    @PostMapping("/buyit")
+    @GetMapping("/buyit")
     @CrossOrigin(origins = "*")
     public String BuyItem(@RequestParam String userid, @RequestParam String itemid,@RequestParam double price) {
         CheckDatabase();
         UUID uuid = UUID.randomUUID();
-        String sql = "INSERT INTO buyistic.orders (orderid, itemid, createTime, status, price, userid) VALUES (?, ?, NOW(), ?, ?, ?)";
-        jdbcTemplate.update(sql, uuid.toString(), itemid, 1, price, userid);
+        jdbcTemplate.execute(String.format("INSERT INTO buyistic.orders (orderid, itemid, createTime, status, price, userid) VALUES ('%s' ,%s, NOW(),%s, %s, '%s')",
+                uuid, itemid, 1, price,userid));
         JSONObject response=new JSONObject();
         response.put("orderid",uuid.toString());
         return response.toJSONString();
@@ -66,7 +66,7 @@ public class OrdersController {
                 createTime TIMESTAMP NOT NULL,
                 status INT NOT NULL,
                 price DOUBLE NOT NULL,
-                userid INT NOT NULL
+                userid TEXT NOT NULL
                     ) CHARACTER SET utf8mb4""");
     }
     private boolean IsDatabaseExisted() {
