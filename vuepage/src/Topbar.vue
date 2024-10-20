@@ -1,9 +1,13 @@
+<script setup>
+import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
+</script>
+
 <template>
-    
     <div class="app_topbar">
         <div class="app_title">
             <slot></slot>
         </div>
+        <AccountStatusDisplayer/>
     </div>
 </template>
 

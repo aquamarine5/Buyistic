@@ -1,9 +1,11 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
+import utils from '@/utils';
 import { UserFilled } from '@element-plus/icons-vue/dist/types';
 import { CircleCloseFilled } from '@element-plus/icons-vue/dist/types';
 import { SuccessFilled } from '@element-plus/icons-vue/dist/types';
 import { InfoFilled } from '@element-plus/icons-vue/dist/types';
+import axios from 'axios';
 import { ElButton, ElCheckbox, ElIcon, ElInput } from 'element-plus';
 import { useRouter } from 'vue-router';
 
@@ -12,7 +14,15 @@ const input_password = ref("")
 const showpassword = ref(false)
 const response = ref({})
 function login() {
-
+    let formdata=new FormData()
+    formdata.append("username",input_username.value)
+    formdata.append("password",input_password.value)
+    axios.post(utils.host+"/login",formdata).then(res=>{
+        response.value=res.data
+        if(res.data.status=="login" || res.data.status=="newaccount"){
+            localStorage.setItem("userid",res.data.result.userid)
+        }
+    })
 }
 </script>
 
@@ -52,7 +62,7 @@ function login() {
                 密码错误！
             </span>
         </div>
-        <ElButton type="primary" @click="useRouter().push('app')">
+        <ElButton type="primary" @click="useRouter().push('app')" v-wave>
             跳转至主页
         </ElButton>
     </div>

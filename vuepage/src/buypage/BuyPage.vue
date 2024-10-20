@@ -2,8 +2,9 @@
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
 import axios from 'axios';
+import { ElButton } from 'element-plus';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const props=defineProps([
     "id"
@@ -13,6 +14,10 @@ const data=ref({})
 axios.get(utils.host+"/get_item?id="+useRoute().params.id).then(response=>{
     data.value=response.data.result
 })
+
+function buyit(){
+    useRouter().push("pay")
+}
 </script>
 
 <template>
@@ -37,6 +42,9 @@ axios.get(utils.host+"/get_item?id="+useRoute().params.id).then(response=>{
                 </div>
             </div>
         </div>
+        <ElButton type="primary" @click="buyit">
+            购买
+        </ElButton>
     </div>
     <div class="buypage_wait" v-else>
         请等待网络响应。

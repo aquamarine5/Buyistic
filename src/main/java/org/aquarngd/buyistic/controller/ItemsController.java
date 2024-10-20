@@ -5,10 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -19,10 +16,14 @@ import java.util.Objects;
 
 @RestController
 public class ItemsController {
-    @Autowired
+    final
     JdbcTemplate jdbcTemplate;
 
-    @RequestMapping("/get_item")
+    public ItemsController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @GetMapping("/get_item")
     @CrossOrigin(origins = "*")
     public String GetItem(@RequestParam("id") String id) {
         CheckDatabaseStatus();
@@ -47,7 +48,7 @@ public class ItemsController {
         return result.toJSONString();
     }
 
-    @RequestMapping("/get_items")
+    @GetMapping("/get_items")
     @CrossOrigin(origins = "*")
     public String GetItems() {
         CheckDatabaseStatus();
@@ -69,7 +70,7 @@ public class ItemsController {
         return result.toJSONString();
     }
 
-    @RequestMapping("/add_item")
+    @PostMapping("/add_item")
     @CrossOrigin(origins = "*")
     public String AddItem(
             @RequestParam("imgurl") String imgurl,

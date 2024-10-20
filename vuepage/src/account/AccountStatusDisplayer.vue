@@ -4,10 +4,10 @@ import { ArrowDown } from '@element-plus/icons-vue/dist/types';
 import axios from 'axios';
 import { ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
 
-const uuid = ref(localStorage.getItem("uuid"))
+const uuid = ref(localStorage.getItem("userid"))
 const userdata = ref({})
 if (uuid != null) {
-    axios.get(utils.host + "/get_user?uuid=" + uuid.value).then(response => {
+    axios.get(utils.host + "/get_user?userid=" + uuid.value).then(response => {
         userdata.value = response.data.result
     })
 }
