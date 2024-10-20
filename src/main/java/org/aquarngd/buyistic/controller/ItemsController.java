@@ -84,10 +84,10 @@ public class ItemsController {
         CheckDatabaseStatus();
         JSONObject result = new JSONObject();
         try {
-            jdbcTemplate.execute(String.format("""
-                            INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
-                            ('%s', '%s', '%s', %s, %s, '%s', %s, '%s')"""
-                    , imgurl, title, detail, nowprice, rawprice, categories, type, introductions));
+            String sql = """
+                INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)""";
+            jdbcTemplate.update(sql, imgurl, title, detail, Float.parseFloat(nowprice), Float.parseFloat(rawprice), categories, Integer.parseInt(type), introductions);
             result.put("result", "OK");
             return result.toJSONString();
         } catch (Exception e) {
