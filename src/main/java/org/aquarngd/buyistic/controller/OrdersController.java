@@ -50,8 +50,8 @@ public class OrdersController {
     public String BuyItem(@RequestParam String userid, @RequestParam String itemid,@RequestParam double price) {
         CheckDatabase();
         UUID uuid = UUID.randomUUID();
-        jdbcTemplate.execute(String.format("INSERT INTO buyistic.orders (orderid, itemid, createTime, status, price, userid) VALUES ('%s' ,%s, NOW(),%s, %s, %s)",
-                uuid,userid, itemid, 1, price));
+        String sql = "INSERT INTO buyistic.orders (orderid, itemid, createTime, status, price, userid) VALUES (?, ?, NOW(), ?, ?, ?)";
+        jdbcTemplate.update(sql, uuid.toString(), itemid, 1, price, userid);
         JSONObject response=new JSONObject();
         response.put("orderid",uuid.toString());
         return response.toJSONString();
