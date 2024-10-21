@@ -6,7 +6,7 @@ import { ElButton } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
-const route=useRoute()
+const route = useRoute()
 const props = defineProps([
     "id"
 ])
@@ -17,12 +17,17 @@ axios.get(utils.host + "/get_item?id=" + route.params.id).then(response => {
 })
 
 function buyit() {
-    router.push({
-        name:"pay",
-        params: {
-            id: route.params.id
-        }
-    })
+    if (localStorage.getItem("userid") == null) {
+        router.push("login")
+    }
+    else {
+        router.push({
+            name: "pay",
+            params: {
+                id: route.params.id
+            }
+        })
+    }
 }
 </script>
 

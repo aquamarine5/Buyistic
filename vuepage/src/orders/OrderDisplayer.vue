@@ -3,19 +3,19 @@ import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
 
-const props=defineProps([
+const props = defineProps([
     "orderid"
 ])
-const isdataready=ref(false)
-const orderdata=ref({})
-const itemdata=ref({})
-axios.get(utils.host+"/get_order?orderid="+props.orderid).then(response=>{
-    orderdata.value=response.data
-    axios.get(utils.host+"/get_item?id="+response.data.itemid).then(rresponse=>{
-        itemdata.value=rresponse.data.result
-        isdataready.value=true
+const isdataready = ref(false)
+const orderdata = ref({})
+const itemdata = ref({})
+axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
+    orderdata.value = response.data
+    axios.get(utils.host + "/get_item?id=" + response.data.itemid).then(rresponse => {
+        itemdata.value = rresponse.data.result
+        isdataready.value = true
     })
-    
+
 })
 </script>
 
@@ -36,7 +36,7 @@ axios.get(utils.host+"/get_order?orderid="+props.orderid).then(response=>{
     </div>
 </template>
 <style>
-.order_container{
+.order_container {
     display: flex;
     margin: 6px;
     padding: 6px;
@@ -45,15 +45,18 @@ axios.get(utils.host+"/get_order?orderid="+props.orderid).then(response=>{
     border-color: #666;
     border-style: solid;
 }
-.order_title{
+
+.order_title {
     font-weight: 600;
 }
-.order_time{
+
+.order_time {
     color: gray;
     font-size: small;
 }
-.order_price{
-    color:red;
+
+.order_price {
+    color: red;
     font-weight: 600;
 }
 </style>

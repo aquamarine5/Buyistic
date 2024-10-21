@@ -14,9 +14,9 @@ axios.get(utils.host + "/get_item?id=" + useRoute().params.id).then(response => 
     itemData.value = response.data.result
 })
 function afterpay() {
-    axios.get(utils.host + "/buyit?userid=" + localStorage.getItem("userid") + "&itemid=" + route.params.id+"&price="+itemData.value.nowprice).then(response => {
+    axios.get(utils.host + "/buyit?userid=" + localStorage.getItem("userid") + "&itemid=" + route.params.id + "&price=" + itemData.value.nowprice).then(response => {
         router.push({
-            name:"orders"
+            name: "orders"
         })
     })
 }
@@ -60,7 +60,7 @@ function back() {
 </template>
 
 <style>
-.payment_container{
+.payment_container {
     margin: 16px;
 }
 </style>

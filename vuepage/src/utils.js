@@ -1,3 +1,3 @@
 export default {
-    host:"http://127.0.0.1/api"
+    host:"http://47.93.43.91//api"
 }

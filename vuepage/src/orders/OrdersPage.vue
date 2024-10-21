@@ -4,9 +4,9 @@ import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
 import OrderDisplayer from './OrderDisplayer.vue';
-const ordersData=ref({})
-axios.get(utils.host+"/orders?userid="+localStorage.getItem("userid")).then(response=>{
-    ordersData.value=response.data.result
+const ordersData = ref({})
+axios.get(utils.host + "/orders?userid=" + localStorage.getItem("userid")).then(response => {
+    ordersData.value = response.data.result
 })
 </script>
 
@@ -16,13 +16,13 @@ axios.get(utils.host+"/orders?userid="+localStorage.getItem("userid")).then(resp
     </Topbar>
     <div class="orders_container">
         <div class="orders_item" v-for="order in ordersData">
-            <OrderDisplayer :orderid="order.orderid"/>
+            <OrderDisplayer :orderid="order.orderid" />
         </div>
     </div>
 </template>
 
 <style>
-.orders_container{
+.orders_container {
     margin: 16px;
 }
 </style>
