@@ -24,6 +24,22 @@ public class OrdersController {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @GetMapping("/get_order")
+    @CrossOrigin(origins = "*")
+    public String GetOrder(@RequestParam String orderid) {
+        CheckDatabase();
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select * from orders where orderid = ?", orderid);
+        JSONObject jsonObject = new JSONObject();
+        if (rowSet.next()) {
+            jsonObject.put("orderid", rowSet.getString("orderid"));
+            jsonObject.put("status", rowSet.getInt("status"));
+            jsonObject.put("createTime", rowSet.getTimestamp("createTime"));
+            jsonObject.put("itemid", rowSet.getInt("itemid"));
+            jsonObject.put("price", rowSet.getDouble("price"));
+        }
+        return jsonObject.toJSONString();
+    }
+
     @GetMapping("/orders")
     @CrossOrigin(origins = "*")
     public String GetOrders(@RequestParam String userid) {
