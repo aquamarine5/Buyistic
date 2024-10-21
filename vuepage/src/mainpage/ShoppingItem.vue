@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import { ElButton } from 'element-plus';
 import { useRouter } from 'vue-router';
-
-const props=defineProps([
+const router = useRouter()
+const props = defineProps([
     "imgurl",
     "title",
     "detail",
     "nowprice",
     "rawprice",
-    "itemid"
+    "itemid",
+    "type"
 ])
+
+function jumpToBuyPage() {
+    router.push({
+        name: "buy",
+        params: {
+            id: props.itemid
+        }
+    })
+}
 </script>
 
 <template>
@@ -33,11 +43,11 @@ const props=defineProps([
                         {{ props.rawprice }}
                     </div>
                 </div>
-                
+
                 <div class="shopping_buttons">
-                    <ElButton v-wave class="shopping_btn_buy" type="primary" @click="useRouter().push("/buy?id="+props.itemid)">
+                    <ElButton v-wave class="shopping_btn_buy" type="primary" @click="jumpToBuyPage">
                         购买
-                    </ElButton> 
+                    </ElButton>
                 </div>
             </div>
         </div>
@@ -45,7 +55,7 @@ const props=defineProps([
 </template>
 
 <style>
-.shopping_item{
+.shopping_item {
     display: flex;
     margin: 6px;
     padding: 6px;
@@ -54,40 +64,49 @@ const props=defineProps([
     border-color: #666;
     border-style: solid;
 }
-.shopping_img{
+
+.shopping_img {
     padding: 6px;
 }
-.shopping_controller{
+
+.shopping_controller {
     display: flex;
 }
-.shopping_buttons{
+
+.shopping_buttons {
     margin-left: auto;
     justify-self: flex-end;
 
 }
-.shopping_content{
+
+.shopping_content {
     padding-left: 6px;
     width: 100%;
 }
-.shopping_title{
+
+.shopping_title {
     font-weight: 600;
 }
-.shopping_detail{
+
+.shopping_detail {
     font-weight: 400;
-    color:gray;
+    color: gray;
     font-size: small;
 }
-.shopping_price{
+
+.shopping_price {
     display: flex;
     align-items: flex-end;
 }
-.shopping_nowprice{
+
+.shopping_nowprice {
     font-weight: 800;
-    color:red;
+    color: red;
 }
-.shopping_rawprice{
+
+.shopping_rawprice {
     font-weight: 400;
-    color:gray;
+    color: gray;
     font-size: smaller;
     text-decoration: line-through;
     padding-left: 6px;
