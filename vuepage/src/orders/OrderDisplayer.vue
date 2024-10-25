@@ -1,10 +1,12 @@
 <script setup>
+import OrdersBgController from '@/background/OrdersBgController.vue';
 import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
 
 const props = defineProps([
-    "orderid"
+    "orderid",
+    "isbackground"
 ])
 const isdataready = ref(false)
 const orderdata = ref({})
@@ -44,6 +46,7 @@ axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
                 {{ orderdata.statusName }}
             </div>
         </div>
+        <OrdersBgController :id="props.orderid" v-if="props.isbackground"/>
     </div>
 </template>
 <style>

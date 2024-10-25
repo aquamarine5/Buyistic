@@ -1,7 +1,6 @@
 package org.aquarngd.buyistic.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 @RestController
-public class AccountController {
+public class AccountsController {
     final
     JdbcTemplate jdbcTemplate;
 
-    public AccountController(JdbcTemplate jdbcTemplate) {
+    public AccountsController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

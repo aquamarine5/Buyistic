@@ -2,7 +2,7 @@
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
 import axios from 'axios';
-import { ElButton, ElCheckbox, ElIcon, ElInput } from 'element-plus';
+import { ElButton, ElCheckbox, ElIcon, ElInput, ElNotification } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -14,6 +14,12 @@ const showresponse = ref(false)
 const router=useRouter()
 function login() {
     let formdata = new FormData()
+    if(input_username.value==null || input_username.value==""){
+        ElNotification({
+            title:"用户名不能为空！",
+            type:"warning"
+        })
+    }
     formdata.append("username", input_username.value)
     formdata.append("password", input_password.value)
     axios.post(utils.host + "/login", formdata).then(res => {

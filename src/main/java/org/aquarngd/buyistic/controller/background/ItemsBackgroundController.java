@@ -1,4 +1,4 @@
-package org.aquarngd.buyistic.controller;
+package org.aquarngd.buyistic.controller.background;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -15,45 +15,27 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-public class ItemsController {
+@RequestMapping("/background/items")
+public class ItemsBackgroundController {
+
     final
     JdbcTemplate jdbcTemplate;
 
-    public ItemsController(JdbcTemplate jdbcTemplate) {
+    public ItemsBackgroundController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @GetMapping("/get_item")
+    @GetMapping("/change_property")
     @CrossOrigin(origins = "*")
-    public String GetItem(@RequestParam("id") String id) {
-        CheckDatabaseStatus();
-        String query = "SELECT * FROM `items` WHERE id = ?";
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(query, id);
-        JSONObject result = new JSONObject();
-        if (sqlRowSet.next()) {
-            result.put("status", "OK");
-            result.put("result", new JSONObject(Map.ofEntries(
-                    Map.entry("imgurl", sqlRowSet.getString("imgurl")),
-                    Map.entry("nowprice", sqlRowSet.getFloat("nowprice")),
-                    Map.entry("rawprice", sqlRowSet.getFloat("rawprice")),
-                    Map.entry("title", sqlRowSet.getString("title")),
-                    Map.entry("detail", sqlRowSet.getString("detail")),
-                    Map.entry("id", sqlRowSet.getInt("id")),
-                    Map.entry("categories", sqlRowSet.getString("categories")),
-                    Map.entry("type", sqlRowSet.getInt("type")),
-                    Map.entry("introductions", sqlRowSet.getString("introductions"))
-            )));
-        } else {
-            result.put("status", "ITEM_NOT_EXIST");
-        }
-        return result.toJSONString();
+    public String ChangeProperty(@RequestParam String property,@RequestParam String value,@RequestParam int id) {
+        jdbcTemplate.update("update items set ? = ? where id = ?", property, value,id);
+        return "success";
     }
-
-    @GetMapping("/get_items")
+    @GetMapping("/get_all")
     @CrossOrigin(origins = "*")
     public String GetItems() {
         CheckDatabaseStatus();
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM `items` WHERE type = 1");
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM `items`");
         JSONObject result = new JSONObject();
         JSONArray resultSet = new JSONArray();
         while (sqlRowSet.next()) {
@@ -69,6 +51,33 @@ public class ItemsController {
         }
         result.put("data", resultSet);
         return result.toJSONString();
+    }
+    @PostMapping("/add")
+    @CrossOrigin(origins = "*")
+    public String AddItem(
+            @RequestParam("imgurl") String imgurl,
+            @RequestParam("title") String title,
+            @RequestParam("detail") String detail,
+            @RequestParam("nowprice") String nowprice,
+            @RequestParam("rawprice") String rawprice,
+            @RequestParam("categories") String categories,
+            @RequestParam("type") int type,
+            @RequestParam("introductions") String introductions) {
+        CheckDatabaseStatus();
+        JSONObject result = new JSONObject();
+        try {
+            String sql = """
+                    INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
+                    (?, ?, ?, ?, ?, ?, ?, ?)""";
+            jdbcTemplate.update(sql, imgurl, title, detail, Float.parseFloat(nowprice), Float.parseFloat(rawprice), categories, type, introductions);
+            result.put("result", "OK");
+            return result.toJSONString();
+        } catch (Exception e) {
+            result.put("result", "ERR");
+            result.put("error_msg", e.getMessage());
+            return result.toJSONString();
+        }
+
     }
 
     private void CheckDatabaseStatus() {

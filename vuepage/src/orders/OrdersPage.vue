@@ -16,7 +16,7 @@ axios.get(utils.host + "/orders?userid=" + localStorage.getItem("userid")).then(
     </Topbar>
     <div class="orders_container">
         <div class="orders_item" v-for="order in ordersData">
-            <OrderDisplayer :orderid="order.orderid" />
+            <OrderDisplayer :orderid="order.orderid" :isbackground="false"/>
         </div>
     </div>
 </template>

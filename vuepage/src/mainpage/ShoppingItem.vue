@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ElButton } from 'element-plus';
 import { useRouter } from 'vue-router';
 const router = useRouter()
@@ -9,7 +9,8 @@ const props = defineProps([
     "nowprice",
     "rawprice",
     "itemid",
-    "type"
+    "type",
+    "isbackground"
 ])
 
 function jumpToBuyPage() {
