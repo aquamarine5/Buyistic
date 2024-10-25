@@ -1,20 +1,25 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
-const router=useRouter()
-function gotoHome(){
+const router = useRouter()
+function gotoHome() {
     router.push({
-        name:"app"
+        name: "app"
     })
 }
 </script>
 
 <template>
-    <div class="app_topbar">
-        <div class="app_title" @click="gotoHome">
-            <slot></slot>
+    <div>
+
+        <div class="app_topbar">
+            <div class="app_title" @click="gotoHome">
+                <slot></slot>
+            </div>
+            <AccountStatusDisplayer />
         </div>
-        <AccountStatusDisplayer />
+
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank">冀ICP备2024089369号</a>
     </div>
 </template>
 
