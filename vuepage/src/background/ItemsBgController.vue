@@ -2,6 +2,7 @@
 import utils from '@/utils';
 import axios from 'axios';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
+import { ref } from 'vue';
 const property = ref("")
 const changedvalue=ref("")
 const props = defineProps([
@@ -24,6 +25,7 @@ function edit(){
                 title:"成功",
                 type:"success"
             })
+            location.reload()
     })
 }
 </script>
@@ -31,9 +33,9 @@ function edit(){
 <template>
     <ElCollapse>
         <ElCollapseItem title="更改信息" name="edit">
-            <div style="display: flex;">
-                <ElSelect v-model="property" placeholder="选择一项要更改的项">
-                    <ElOption v-for="(value, label) in options" 
+            <div style="display: flex; width: 200px;">
+                <ElSelect v-model="property" placeholder="选择一项要更改的项" style="width: 200px;">
+                    <ElOption v-for="(label, value) in options" 
                         :key="value" :label="label" :value="value" />
                 </ElSelect>
                 <ElInput v-model="changedvalue"/>

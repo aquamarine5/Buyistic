@@ -15,10 +15,11 @@ const routes = [
     { path: "/orders", component: () => import("@/orders/OrdersPage.vue"), name: "orders" },
     { path: "/login", component: () => import("@/account/LoginPage.vue"), name: "login" },
     { path: '/buy/:id', component: () => import('@/buypage/BuyPage.vue'), name: "buy" },
-    { path: '/background', component: () => import('@/background/BackgroundPage.vue'), name: "background" },
+    
     { path: "/background/accounts", component: () => import("@/background/AccountsBgPage.vue"), name: "bg_accounts" },
     { path: "/background/items", component: () => import("@/background/ItemsBgPage.vue"), name: "bg_items" },
-    { path: "/background/orders", component: () => import("@/background/OrdersBgPage.vue"), name: "bg_orders" }
+    { path: "/background/orders", component: () => import("@/background/OrdersBgPage.vue"), name: "bg_orders" },
+    { path: '/background', component: () => import('@/background/BackgroundPage.vue'), name: "background" },
 ]
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

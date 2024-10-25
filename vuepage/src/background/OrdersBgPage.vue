@@ -3,10 +3,10 @@ import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
-import OrderDisplayer from './OrderDisplayer.vue';
-const ordersData = ref({})
+import OrderDisplayer from '@/orders/OrderDisplayer.vue';
+const ordersData = ref([])
 axios.get(utils.host + "/background/orders/get_all").then(response => {
-    ordersData.value = response.data.result
+    ordersData.value = response.data.orders
 })
 </script>
 

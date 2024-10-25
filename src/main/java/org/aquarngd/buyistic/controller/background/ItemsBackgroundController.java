@@ -28,7 +28,12 @@ public class ItemsBackgroundController {
     @GetMapping("/change_property")
     @CrossOrigin(origins = "*")
     public String ChangeProperty(@RequestParam String property,@RequestParam String value,@RequestParam int id) {
-        jdbcTemplate.update("update items set ? = ? where id = ?", property, value,id);
+        if(Objects.equals(property, "title") || Objects.equals(property, "detail"))
+            jdbcTemplate.update("update items set "+property+" = ? where id = ?",value,id);
+        else if(Objects.equals(property, "type"))
+            jdbcTemplate.update("update items set type = ? where id = ?", Integer.parseInt(value),id);
+        else
+            jdbcTemplate.update("update items set "+property+" = ? where id = ?",Double.parseDouble(value),id);
         return "success";
     }
     @GetMapping("/get_all")

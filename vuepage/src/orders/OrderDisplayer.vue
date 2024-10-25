@@ -16,7 +16,7 @@ const statusMap={
     1:"已下单未付款",
     2:"已付款",
     3:"已发货",
-    4:"已取消"
+    4:"已完成"
 }
 axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
     orderdata.value = response.data
@@ -45,8 +45,9 @@ axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
             <div class="order_status">
                 {{ orderdata.statusName }}
             </div>
+            <OrdersBgController :id="props.orderid" v-if="props.isbackground"/>
         </div>
-        <OrdersBgController :id="props.orderid" v-if="props.isbackground"/>
+        
     </div>
 </template>
 <style>

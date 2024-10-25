@@ -3,7 +3,9 @@ import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
 const router=useRouter()
 function gotoHome(){
-    router.push("app")
+    router.push({
+        name:"app"
+    })
 }
 </script>
 
@@ -24,6 +26,7 @@ function gotoHome(){
 }
 
 .app_title {
+    cursor: pointer;
     white-space: nowrap;
     padding-top: 15px;
     padding-inline: 20px;
