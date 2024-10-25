@@ -1,10 +1,15 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
+const router=useRouter()
+function gotoHome(){
+    router.push("app")
+}
 </script>
 
 <template>
     <div class="app_topbar">
-        <div class="app_title">
+        <div class="app_title" @click="gotoHome">
             <slot></slot>
         </div>
         <AccountStatusDisplayer />

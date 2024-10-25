@@ -9,8 +9,16 @@ const props = defineProps([
 const isdataready = ref(false)
 const orderdata = ref({})
 const itemdata = ref({})
+const statusMap={
+    0:"已取消",
+    1:"已下单未付款",
+    2:"已付款",
+    3:"已发货",
+    4:"已取消"
+}
 axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
     orderdata.value = response.data
+    orderdata.value.statusName="订单状态："+statusMap[orderdata.value.status]
     axios.get(utils.host + "/get_item?id=" + response.data.itemid).then(rresponse => {
         itemdata.value = rresponse.data.result
         isdataready.value = true
@@ -31,6 +39,9 @@ axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
             </div>
             <div class="order_time">
                 {{ new Date(orderdata.createTime).toLocaleString("zh") }}
+            </div>
+            <div class="order_status">
+                {{ orderdata.statusName }}
             </div>
         </div>
     </div>
