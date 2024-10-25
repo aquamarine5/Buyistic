@@ -11,8 +11,10 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/background/items")
@@ -27,15 +29,27 @@ public class ItemsBackgroundController {
 
     @GetMapping("/change_property")
     @CrossOrigin(origins = "*")
-    public String ChangeProperty(@RequestParam String property,@RequestParam String value,@RequestParam int id) {
-        if(Objects.equals(property, "title") || Objects.equals(property, "detail"))
-            jdbcTemplate.update("update items set "+property+" = ? where id = ?",value,id);
-        else if(Objects.equals(property, "type"))
-            jdbcTemplate.update("update items set type = ? where id = ?", Integer.parseInt(value),id);
+    public String ChangeProperty(@RequestParam String property, @RequestParam String value, @RequestParam int id) {
+        Map<String, String> allowedProperties = Map.of(
+                "title", "title",
+                "detail", "detail",
+                "type", "type",
+                "nowprice", "nowprice",
+                "rawprice", "rawprice"
+        );
+        if (!allowedProperties.containsKey(property)) {
+            return "error: invalid property";
+        }
+        String column = allowedProperties.get(property);
+        if (Objects.equals(property, "title") || Objects.equals(property, "detail"))
+            jdbcTemplate.update("update items set " + column + " = ? where id = ?", value, id);
+        else if (Objects.equals(property, "type"))
+            jdbcTemplate.update("update items set type = ? where id = ?", Integer.parseInt(value), id);
         else
-            jdbcTemplate.update("update items set "+property+" = ? where id = ?",Double.parseDouble(value),id);
+            jdbcTemplate.update("update items set " + column + " = ? where id = ?", Double.parseDouble(value), id);
         return "success";
     }
+
     @GetMapping("/get_all")
     @CrossOrigin(origins = "*")
     public String GetItems() {
@@ -57,6 +71,7 @@ public class ItemsBackgroundController {
         result.put("data", resultSet);
         return result.toJSONString();
     }
+
     @PostMapping("/add")
     @CrossOrigin(origins = "*")
     public String AddItem(
