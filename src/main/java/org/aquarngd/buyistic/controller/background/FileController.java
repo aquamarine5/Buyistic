@@ -22,7 +22,7 @@ public class FileController {
         JSONObject json = new JSONObject();
         try {
             String filename = file.getOriginalFilename();
-            String filepath = "/root/wwwroot/imgs" + UUID.randomUUID() + filename.substring(filename.lastIndexOf(".") + 1);
+            String filepath = "/root/imgs" + UUID.randomUUID() + filename.substring(filename.lastIndexOf(".") + 1);
             file.transferTo(new File(filepath));
             json.put("filename", filename);
             json.put("status", "success");

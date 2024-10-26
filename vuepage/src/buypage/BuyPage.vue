@@ -2,7 +2,7 @@
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
 import axios from 'axios';
-import { ElButton } from 'element-plus';
+import { ElButton, ElNotification } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
@@ -18,7 +18,13 @@ axios.get(utils.host + "/get_item?id=" + route.params.id).then(response => {
 
 function buyit() {
     if (localStorage.getItem("userid") == null) {
-        router.push("login")
+        ElNotification({
+            title:"请先登录！",
+            type:"warning"
+        })
+        router.push({
+            name:"login"
+        })
     }
     else {
         router.push({
