@@ -1,5 +1,6 @@
 <script setup>
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';
@@ -16,7 +17,7 @@ const statusMap={
     4:"已完成"
 }
 function edit(){
-    axios.get(utils.host+
+    wnetwork.get(utils.host+
         "/background/orders/change_status?orderid="+props.id+"&status="+property.value).then(response=>{
             property.value=""
             ElNotification({

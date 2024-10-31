@@ -1,6 +1,7 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton } from 'element-plus';
 import { ref } from 'vue';
@@ -9,12 +10,12 @@ const itemData = ref({})
 const isLoaded = ref(false)
 const route = useRoute()
 const router = useRouter()
-axios.get(utils.host + "/get_item?id=" + useRoute().params.id).then(response => {
+wnetwork.get("/get_item?id=" + useRoute().params.id).then(response => {
     isLoaded.value = true
     itemData.value = response.data.result
 })
 function afterpay() {
-    axios.get(utils.host + "/buyit?userid=" + localStorage.getItem("userid") + "&itemid=" + route.params.id + "&price=" + itemData.value.nowprice).then(response => {
+    wnetwork.get("/buyit?userid=" + localStorage.getItem("userid") + "&itemid=" + route.params.id + "&price=" + itemData.value.nowprice).then(response => {
         router.push({
             name: "orders"
         })
@@ -47,8 +48,8 @@ function back() {
             </div>
         </div>
     </div>
-    <img :src="utils.host + '/assets/img/pay_qrcode.png'">
-    <img :src="utils.host + '/assets/img/contact_qrcode.png'">
+    <img :src="utils.imgHost + '/pay_qrcode.png'">
+    <img :src="utils.imgHost + '/contact_qrcode.png'">
     <div class="payment_afterpay">
         <ElButton @click="afterpay" type="primary" v-wave>
             付款完成

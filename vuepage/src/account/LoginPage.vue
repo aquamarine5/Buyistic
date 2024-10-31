@@ -1,6 +1,7 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton, ElCheckbox, ElIcon, ElInput, ElNotification } from 'element-plus';
 import { ref } from 'vue';
@@ -19,10 +20,11 @@ function login() {
             title:"用户名不能为空！",
             type:"warning"
         })
+      return
     }
     formdata.append("username", input_username.value)
     formdata.append("password", input_password.value)
-    axios.post(utils.host + "/login", formdata).then(res => {
+    wnetwork.post("/login", formdata).then(res => {
         response.value = res.data
         showresponse.value = true
         if (res.data.status == "login" || res.data.status == "newaccount") {

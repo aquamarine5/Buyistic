@@ -1,6 +1,7 @@
 <script setup>
 import OrdersBgController from '@/background/OrdersBgController.vue';
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ref } from 'vue';
 
@@ -18,10 +19,10 @@ const statusMap={
     3:"已发货",
     4:"已完成"
 }
-axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
+wnetwork.get("/get_order?orderid=" + props.orderid).then(response => {
     orderdata.value = response.data
     orderdata.value.statusName="订单状态："+statusMap[orderdata.value.status]
-    axios.get(utils.host + "/get_item?id=" + response.data.itemid).then(rresponse => {
+    wnetwork.get("/get_item?id=" + response.data.itemid).then(rresponse => {
         itemdata.value = rresponse.data.result
         isdataready.value = true
     })
@@ -45,7 +46,7 @@ axios.get(utils.host + "/get_order?orderid=" + props.orderid).then(response => {
             <div class="order_status">
                 {{ orderdata.statusName }}
             </div>
-            <OrdersBgController :id="props.orderid" v-if="props.isbackground"/>
+            <OrdersBgController :id="props.orderid" v-if="props.isbackground" />
         </div>
         
     </div>

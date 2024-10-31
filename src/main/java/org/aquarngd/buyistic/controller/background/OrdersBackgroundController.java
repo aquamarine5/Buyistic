@@ -19,7 +19,7 @@ public class OrdersBackgroundController {
     @GetMapping("/get_all")
     @CrossOrigin(origins = "*")
     public String getAll() {
-        SqlRowSet rs = jdbcTemplate.queryForRowSet("select * from orders");
+        SqlRowSet rs = jdbcTemplate.queryForRowSet("select * from orders order by createTime desc");
         JSONObject result=new JSONObject();
         JSONArray orders=new JSONArray();
         while (rs.next()) {
@@ -29,6 +29,7 @@ public class OrdersBackgroundController {
             order.put("createTime", rs.getTimestamp("createTime"));
             order.put("itemid", rs.getInt("itemid"));
             order.put("price", rs.getDouble("price"));
+            order.put("userid",rs.getInt("userid"));
             orders.add(order);
         }
         result.put("orders", orders);

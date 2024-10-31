@@ -6,8 +6,9 @@ import axios from 'axios';
 import ItemsBgController from './ItemsBgController.vue';
 import { ref } from 'vue';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElInputNumber, ElNotification } from 'element-plus';
+import wnetwork from '@/wnetwork';
 
-axios.get(utils.host + "/background/items/get_all").then(response => {
+wnetwork.get("/background/items/get_all").then(response => {
     itemsdata.value = response.data.data
     isdataready.value = true
 })
@@ -80,7 +81,7 @@ export default {
             uploadInputChanged: () => {
                 let formData = new FormData()
                 formData.append("file", this.$refs.uploadInput.files[0])
-                axios.post(utils.host + "/background/file/upload/", formData).then(response => {
+                axios.post("/background/file/upload/", formData).then(response => {
                     imgurl = utils.imgHost + response.data.filename
                 })
             },
@@ -101,7 +102,7 @@ export default {
                 formdata.append("type", 1)
                 formdata.append("categories", "")
                 formdata.append("introductions", "")
-                axios.post(utils.host + "/background/items/add", formdata).then(response => {
+                axios.post("/background/items/add", formdata).then(response => {
                     if (response.data.result == "OK") {
                         location.reload()
                     }

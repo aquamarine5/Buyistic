@@ -4,8 +4,9 @@ import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
 import OrderDisplayer from './OrderDisplayer.vue';
+import wnetwork from '@/wnetwork';
 const ordersData = ref({})
-axios.get(utils.host + "/orders?userid=" + localStorage.getItem("userid")).then(response => {
+wnetwork.get("/orders?userid=" + localStorage.getItem("userid")).then(response => {
     ordersData.value = response.data.result
 })
 </script>

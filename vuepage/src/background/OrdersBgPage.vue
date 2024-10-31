@@ -4,8 +4,9 @@ import utils from '@/utils';
 import axios from 'axios';
 import { ref } from 'vue';
 import OrderDisplayer from '@/orders/OrderDisplayer.vue';
+import wnetwork from '@/wnetwork';
 const ordersData = ref([])
-axios.get(utils.host + "/background/orders/get_all").then(response => {
+wnetwork.get("/background/orders/get_all").then(response => {
     ordersData.value = response.data.orders
 })
 </script>
@@ -15,7 +16,7 @@ axios.get(utils.host + "/background/orders/get_all").then(response => {
         Buyistic: 全部订单
     </Topbar>
     <div class="orders_container">
-        <div class="orders_item" v-for="order in ordersData">
+        <div class="orders_item" v-for="order in ordersData" :key="order.createTime">
             <OrderDisplayer :orderid="order.orderid" :isbackground="true"/>
         </div>
     </div>

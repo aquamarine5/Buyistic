@@ -1,6 +1,7 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton, ElNotification } from 'element-plus';
 import { ref } from 'vue';
@@ -12,7 +13,7 @@ const props = defineProps([
 ])
 const data = ref({})
 
-axios.get(utils.host + "/get_item?id=" + route.params.id).then(response => {
+wnetwork.get("/get_item?id=" + route.params.id).then(response => {
     data.value = response.data.result
 })
 

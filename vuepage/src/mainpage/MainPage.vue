@@ -4,9 +4,10 @@ import ShoppingItem from './ShoppingItem.vue';
 import utils from '../utils';
 import { ref } from 'vue';
 import Topbar from '@/Topbar.vue';
+import wnetwork from '@/wnetwork';
 
 var items_data = ref([])
-axios.get(utils.host + "/get_items").then(
+wnetwork.get("/get_items").then(
     response => {
         items_data.value = response.data.data
     }

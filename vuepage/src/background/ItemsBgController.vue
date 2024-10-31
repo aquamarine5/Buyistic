@@ -1,5 +1,6 @@
 <script setup>
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';
@@ -16,7 +17,7 @@ const options = {
     "type": "商品状态"
 }
 function edit(){
-    axios.get(utils.host+
+    wnetwork.get(wnetwork.APIHOST+
         "/background/items/change_property?property="+property.value+
         "&value="+changedvalue.value+"&id="+props.itemid).then(response=>{
             property.value=""

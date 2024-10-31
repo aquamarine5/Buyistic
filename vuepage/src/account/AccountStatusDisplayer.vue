@@ -1,5 +1,6 @@
 <script setup>
 import utils from '@/utils';
+import wnetwork from '@/wnetwork';
 import axios from 'axios';
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
 import { ref } from 'vue';
@@ -8,12 +9,14 @@ const uuid = ref(localStorage.getItem("userid"))
 const userdata = ref({})
 const router = useRouter()
 if (uuid.value != null) {
-    axios.get(utils.host + "/get_user?userid=" + uuid.value).then(response => {
+    wnetwork.get("/get_user?userid=" + uuid.value).then(response => {
         userdata.value = response.data.result
     })
 }
 function login() {
-    router.push('login')
+    router.push({
+        name:"login"
+    })
 }
 function logout() {
     localStorage.removeItem("uuid")
