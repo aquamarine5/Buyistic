@@ -75,7 +75,8 @@ function buyit() {
 }
 
 .buypage_img {
-    width: 1vw;
+    max-width: 300px;
+    max-height: 300px;
 }
 
 .buypage_title {

@@ -38,7 +38,7 @@ function cancelOrder() {
 
 <template>
     <div class="order_container" v-if="isdataready">
-        <img :src="itemdata.imgurl">
+        <img class="order_img" :src="itemdata.imgurl">
         <div class="order_column">
             <div class="order_title">
                 {{ itemdata.title }}
@@ -60,6 +60,10 @@ function cancelOrder() {
     </div>
 </template>
 <style>
+.order_img{
+    max-width: 200px;
+    max-height: 200px;
+}
 .order_container {
     display: flex;
     margin: 6px;

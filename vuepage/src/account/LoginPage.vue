@@ -25,7 +25,7 @@ function login() {
     formdata.append("username", input_username.value)
     formdata.append("password", input_password.value)
     wnetwork.post("/login", formdata).then(res => {
-        response.value = res.data
+        response.value = res.data.data
         showresponse.value = true
         if (res.data.data.status == "login" || res.data.data.status == "newaccount") {
             localStorage.setItem("userid", res.data.data.result.userid)

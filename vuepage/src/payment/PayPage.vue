@@ -98,6 +98,10 @@ function back() {
     margin: 16px;
 }
 
+.payment_img {
+    max-width: 200px;
+    max-height: 200px;
+}
 .payment_cimg {
     width: 50%;
     height: 50%;

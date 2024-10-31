@@ -72,6 +72,8 @@ function jumpToBuyPage() {
 
 .shopping_img {
     padding: 6px;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 .shopping_controller {

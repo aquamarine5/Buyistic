@@ -85,7 +85,7 @@ export default {
                 })
             },
             addItem: () => {
-                if (reftitle.value == "" || this.imgurl == null) {
+                if (reftitle.value == "" || this.imgurl == null||this.imgurl==undefined) {
                     ElNotification({
                         title: "必填项（标题和封面图）不能为空！",
                         type: "error"
@@ -93,7 +93,7 @@ export default {
                     return
                 }
                 let formdata = new FormData()
-                formdata.append("imgurl", this.imgurl.value)
+                formdata.append("imgurl", this.imgurl)
                 formdata.append("title", reftitle.value)
                 formdata.append("detail", refdetail.value)
                 formdata.append("nowprice", refnowprice.value)
