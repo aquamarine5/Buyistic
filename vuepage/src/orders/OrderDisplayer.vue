@@ -1,8 +1,8 @@
 <script setup>
 import OrdersBgController from '@/background/OrdersBgController.vue';
-import utils from '@/utils';
+
 import wnetwork from '@/wnetwork';
-import axios from 'axios';
+import { ElButton } from 'element-plus';
 import { ref } from 'vue';
 
 const props = defineProps([
@@ -12,22 +12,28 @@ const props = defineProps([
 const isdataready = ref(false)
 const orderdata = ref({})
 const itemdata = ref({})
-const statusMap={
-    0:"已取消",
-    1:"已下单未付款",
-    2:"已付款",
-    3:"已发货",
-    4:"已完成"
+const statusMap = {
+    0: "已取消",
+    1: "已下单未付款",
+    2: "已付款",
+    3: "已发货",
+    4: "已完成"
 }
 wnetwork.get("/get_order?orderid=" + props.orderid).then(response => {
-    orderdata.value = response.data
-    orderdata.value.statusName="订单状态："+statusMap[orderdata.value.status]
-    wnetwork.get("/get_item?id=" + response.data.itemid).then(rresponse => {
-        itemdata.value = rresponse.data.result
+    orderdata.value = response.data.data
+    orderdata.value.statusName = "订单状态：" + statusMap[orderdata.value.status]
+    wnetwork.get("/get_item?id=" + response.data.data.itemid).then(rresponse => {
+        itemdata.value = rresponse.data.data.result
         isdataready.value = true
     })
 
 })
+
+function cancelOrder() {
+    wnetwork.get("/cancel_order?orderid=" + props.orderid).then(response => {
+        location.reload()
+    })
+}
 </script>
 
 <template>
@@ -46,9 +52,11 @@ wnetwork.get("/get_order?orderid=" + props.orderid).then(response => {
             <div class="order_status">
                 {{ orderdata.statusName }}
             </div>
-            <OrdersBgController :id="props.orderid" v-if="props.isbackground" />
+            <OrdersBgController :orderid="props.orderid" v-if="props.isbackground" :userid="orderdata.userid" />
+            <ElButton type="primary" v-else @click="cancelOrder">
+                取消订单
+            </ElButton>
         </div>
-        
     </div>
 </template>
 <style>

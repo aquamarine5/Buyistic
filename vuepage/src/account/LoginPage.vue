@@ -1,8 +1,8 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
-import utils from '@/utils';
+
 import wnetwork from '@/wnetwork';
-import axios from 'axios';
+
 import { ElButton, ElCheckbox, ElIcon, ElInput, ElNotification } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -27,8 +27,8 @@ function login() {
     wnetwork.post("/login", formdata).then(res => {
         response.value = res.data
         showresponse.value = true
-        if (res.data.status == "login" || res.data.status == "newaccount") {
-            localStorage.setItem("userid", res.data.result.userid)
+        if (res.data.data.status == "login" || res.data.data.status == "newaccount") {
+            localStorage.setItem("userid", res.data.data.result.userid)
         }
     })
 }

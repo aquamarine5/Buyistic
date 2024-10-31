@@ -1,7 +1,8 @@
 package org.aquarngd.buyistic.controller.background;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -29,23 +30,23 @@ public class OrdersBackgroundController {
             order.put("createTime", rs.getTimestamp("createTime"));
             order.put("itemid", rs.getInt("itemid"));
             order.put("price", rs.getDouble("price"));
-            order.put("userid",rs.getInt("userid"));
+            order.put("userid",rs.getString("userid"));
             orders.add(order);
         }
         result.put("orders", orders);
-        return result.toJSONString();
+        return UnifiedResponse.Success(result).toJSONString();
     }
     @GetMapping("/change_status")
     @CrossOrigin(origins = "*")
     public String changeStatus(@RequestParam String orderid, @RequestParam int status) {
         jdbcTemplate.update("update orders set status = ? where orderid = ?", status, orderid);
-        return "SUCCESS";
+        return UnifiedResponse.SuccessSignal().toJSONString();
     }
 
     @GetMapping("/remove")
     @CrossOrigin(origins = "*")
     public String remove(@RequestParam String orderid) {
         jdbcTemplate.update("delete from orders where orderid = ?", orderid);
-        return "SUCCESS";
+        return UnifiedResponse.SuccessSignal().toJSONString();
     }
 }

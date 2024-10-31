@@ -1,6 +1,7 @@
 package org.aquarngd.buyistic.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class AccountsController {
                     Map.entry("userid", uuid.toString()))));
         }
 
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
     @GetMapping("/get_user")
     @CrossOrigin(origins = "*")
@@ -59,7 +60,7 @@ public class AccountsController {
                     Map.entry("name",sqlRowSet.getString("username"))
             )));
         }
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
     private void CheckDatabase() {
         if (!IsDatabaseExisted())

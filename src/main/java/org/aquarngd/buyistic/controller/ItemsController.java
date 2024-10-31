@@ -2,6 +2,7 @@ package org.aquarngd.buyistic.controller;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -31,7 +32,6 @@ public class ItemsController {
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(query, id);
         JSONObject result = new JSONObject();
         if (sqlRowSet.next()) {
-            result.put("status", "OK");
             result.put("result", new JSONObject(Map.ofEntries(
                     Map.entry("imgurl", sqlRowSet.getString("imgurl")),
                     Map.entry("nowprice", sqlRowSet.getFloat("nowprice")),
@@ -43,10 +43,10 @@ public class ItemsController {
                     Map.entry("type", sqlRowSet.getInt("type")),
                     Map.entry("introductions", sqlRowSet.getString("introductions"))
             )));
+            return UnifiedResponse.Success(result).toJSONString();
         } else {
-            result.put("status", "ITEM_NOT_EXIST");
+            return UnifiedResponse.Failed("ITEM_NOT_EXIST").toJSONString();
         }
-        return result.toJSONString();
     }
 
     @GetMapping("/get_items")
@@ -68,7 +68,7 @@ public class ItemsController {
             )));
         }
         result.put("data", resultSet);
-        return result.toJSONString();
+        return UnifiedResponse.Success(result).toJSONString();
     }
 
     private void CheckDatabaseStatus() {

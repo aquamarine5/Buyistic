@@ -1,11 +1,10 @@
 <script setup>
-import utils from '@/utils';
+
 import wnetwork from '@/wnetwork';
-import axios from 'axios';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';
 const property = ref("")
-const changedvalue=ref("")
+const changedvalue = ref("")
 const props = defineProps([
     "itemid"
 ])
@@ -16,18 +15,14 @@ const options = {
     "detail": "描述",
     "type": "商品状态"
 }
-function edit(){
-    wnetwork.get(wnetwork.APIHOST+
-        "/background/items/change_property?property="+property.value+
-        "&value="+changedvalue.value+"&id="+props.itemid).then(response=>{
-            property.value=""
-            changedvalue.value=""
-            ElNotification({
-                title:"成功",
-                type:"success"
-            })
+function edit() {
+    wnetwork.get(
+        "/background/items/change_property?property=" + property.value +
+        "&value=" + changedvalue.value + "&id=" + props.itemid).then(response => {
+            property.value = ""
+            changedvalue.value = ""
             location.reload()
-    })
+        })
 }
 </script>
 
@@ -36,10 +31,9 @@ function edit(){
         <ElCollapseItem title="更改信息" name="edit">
             <div style="display: flex; width: 200px;">
                 <ElSelect v-model="property" placeholder="选择一项要更改的项" style="width: 200px;">
-                    <ElOption v-for="(label, value) in options" 
-                        :key="value" :label="label" :value="value" />
+                    <ElOption v-for="(label, value) in options" :key="value" :label="label" :value="value" />
                 </ElSelect>
-                <ElInput v-model="changedvalue"/>
+                <ElInput v-model="changedvalue" />
                 <ElButton v-wave type="primary" @click="edit">提交</ElButton>
             </div>
 

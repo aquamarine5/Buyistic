@@ -1,13 +1,13 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
-import utils from '@/utils';
-import axios from 'axios';
+
+
 import { ref } from 'vue';
 import OrderDisplayer from './OrderDisplayer.vue';
 import wnetwork from '@/wnetwork';
 const ordersData = ref({})
 wnetwork.get("/orders?userid=" + localStorage.getItem("userid")).then(response => {
-    ordersData.value = response.data.result
+    ordersData.value = response.data.data.result
 })
 </script>
 
@@ -17,7 +17,7 @@ wnetwork.get("/orders?userid=" + localStorage.getItem("userid")).then(response =
     </Topbar>
     <div class="orders_container">
         <div class="orders_item" v-for="order in ordersData">
-            <OrderDisplayer :orderid="order.orderid" :isbackground="false"/>
+            <OrderDisplayer :orderid="order.orderid" :isbackground="false" />
         </div>
     </div>
 </template>

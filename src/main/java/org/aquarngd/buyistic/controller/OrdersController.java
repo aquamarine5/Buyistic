@@ -1,7 +1,8 @@
 package org.aquarngd.buyistic.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -24,6 +25,15 @@ public class OrdersController {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @GetMapping("/cancel_order")
+    @CrossOrigin(origins = "*")
+    public String CancelOrder(@RequestParam String orderid) {
+        CheckDatabase();
+        jdbcTemplate.update("update orders set status=0 where orderid = ?", orderid);
+        return UnifiedResponse.SuccessSignal().toJSONString();
+    }
+
+
     @GetMapping("/get_order")
     @CrossOrigin(origins = "*")
     public String GetOrder(@RequestParam String orderid) {
@@ -36,8 +46,9 @@ public class OrdersController {
             jsonObject.put("createTime", rowSet.getTimestamp("createTime"));
             jsonObject.put("itemid", rowSet.getInt("itemid"));
             jsonObject.put("price", rowSet.getDouble("price"));
+            jsonObject.put("userid",rowSet.getString("userid"));
         }
-        return jsonObject.toJSONString();
+        return UnifiedResponse.Success(jsonObject).toJSONString();
     }
 
     @GetMapping("/orders")
@@ -58,7 +69,7 @@ public class OrdersController {
             )));
         }
         response.put("result",jsonArray);
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
 
     @GetMapping("/buyit")
@@ -70,7 +81,7 @@ public class OrdersController {
         jdbcTemplate.update(sql, uuid.toString(), itemid, 1, price, userid);
         JSONObject response=new JSONObject();
         response.put("orderid",uuid.toString());
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
 
     private void CheckDatabase() {

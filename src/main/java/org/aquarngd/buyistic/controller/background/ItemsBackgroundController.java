@@ -2,6 +2,7 @@ package org.aquarngd.buyistic.controller.background;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -47,7 +48,7 @@ public class ItemsBackgroundController {
             jdbcTemplate.update("update items set type = ? where id = ?", Integer.parseInt(value), id);
         else
             jdbcTemplate.update("update items set " + column + " = ? where id = ?", Double.parseDouble(value), id);
-        return "success";
+        return UnifiedResponse.SuccessSignal().toJSONString();
     }
 
     @GetMapping("/get_all")
@@ -69,7 +70,7 @@ public class ItemsBackgroundController {
             )));
         }
         result.put("data", resultSet);
-        return result.toJSONString();
+        return UnifiedResponse.Success(result).toJSONString();
     }
 
     @PostMapping("/add")

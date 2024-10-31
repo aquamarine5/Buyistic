@@ -1,8 +1,7 @@
 <script setup>
 import ShoppingItem from '@/mainpage/ShoppingItem.vue';
 import Topbar from '@/Topbar.vue';
-import utils from '@/utils';
-import axios from 'axios';
+
 import ItemsBgController from './ItemsBgController.vue';
 import { ref } from 'vue';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElInputNumber, ElNotification } from 'element-plus';
@@ -81,8 +80,8 @@ export default {
             uploadInputChanged: () => {
                 let formData = new FormData()
                 formData.append("file", this.$refs.uploadInput.files[0])
-                axios.post("/background/file/upload/", formData).then(response => {
-                    imgurl = utils.imgHost + response.data.filename
+                wnetwork.post("/background/file/upload/", formData).then(response => {
+                    imgurl = wnetwork.IMGHOST + response.data.filename
                 })
             },
             addItem: () => {
@@ -102,14 +101,12 @@ export default {
                 formdata.append("type", 1)
                 formdata.append("categories", "")
                 formdata.append("introductions", "")
-                axios.post("/background/items/add", formdata).then(response => {
-                    if (response.data.result == "OK") {
+                wnetwork.post("/background/items/add", formdata).then(response => {
+                    if (response.data.data.result == "OK") {
                         location.reload()
-                    }
-                    else {
                         ElNotification({
-                            title: response.data.error_msg,
-                            type: "error"
+                            title: "添加商品成功！",
+                            type: "success"
                         })
                     }
                 })

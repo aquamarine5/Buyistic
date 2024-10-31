@@ -1,6 +1,7 @@
 package org.aquarngd.buyistic.controller.background;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +26,9 @@ public class FileController {
             String filepath = "/root/imgs" + UUID.randomUUID() + filename.substring(filename.lastIndexOf(".") + 1);
             file.transferTo(new File(filepath));
             json.put("filename", filename);
-            json.put("status", "success");
-            return json.toJSONString();
+            return UnifiedResponse.Success(json).toJSONString();
         } catch (IOException e) {
-            json.put("status", "error");
-            json.put("errmsg", e.getMessage());
-            return json.toJSONString();
+            return UnifiedResponse.Failed(e.getMessage()).toJSONString();
         }
     }
 }
