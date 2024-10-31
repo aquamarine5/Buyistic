@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ElButton } from 'element-plus';
 import { useRouter } from 'vue-router';
 const router = useRouter()
@@ -9,7 +9,8 @@ const props = defineProps([
     "nowprice",
     "rawprice",
     "itemid",
-    "type"
+    "type",
+    "isbackground"
 ])
 
 function jumpToBuyPage() {
@@ -44,13 +45,17 @@ function jumpToBuyPage() {
                     </div>
                 </div>
 
-                <div class="shopping_buttons">
+                <div class="shopping_buttons" v-if="!props.isbackground">
                     <ElButton v-wave class="shopping_btn_buy" type="primary" @click="jumpToBuyPage">
                         购买
                     </ElButton>
                 </div>
             </div>
+            <div class="background_slot" v-if="props.isbackground">
+                <slot></slot>
+            </div>
         </div>
+        
     </div>
 </template>
 

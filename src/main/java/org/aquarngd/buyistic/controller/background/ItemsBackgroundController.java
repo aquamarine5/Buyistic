@@ -1,4 +1,4 @@
-package org.aquarngd.buyistic.controller;
+package org.aquarngd.buyistic.controller.background;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -12,48 +12,50 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 @RestController
-public class ItemsController {
+@RequestMapping("/background/items")
+public class ItemsBackgroundController {
+
     final
     JdbcTemplate jdbcTemplate;
 
-    public ItemsController(JdbcTemplate jdbcTemplate) {
+    public ItemsBackgroundController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @GetMapping("/get_item")
+    @GetMapping("/change_property")
     @CrossOrigin(origins = "*")
-    public String GetItem(@RequestParam("id") String id) {
-        CheckDatabaseStatus();
-        String query = "SELECT * FROM `items` WHERE id = ?";
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet(query, id);
-        JSONObject result = new JSONObject();
-        if (sqlRowSet.next()) {
-            result.put("result", new JSONObject(Map.ofEntries(
-                    Map.entry("imgurl", sqlRowSet.getString("imgurl")),
-                    Map.entry("nowprice", sqlRowSet.getFloat("nowprice")),
-                    Map.entry("rawprice", sqlRowSet.getFloat("rawprice")),
-                    Map.entry("title", sqlRowSet.getString("title")),
-                    Map.entry("detail", sqlRowSet.getString("detail")),
-                    Map.entry("id", sqlRowSet.getInt("id")),
-                    Map.entry("categories", sqlRowSet.getString("categories")),
-                    Map.entry("type", sqlRowSet.getInt("type")),
-                    Map.entry("introductions", sqlRowSet.getString("introductions"))
-            )));
-            return UnifiedResponse.Success(result).toJSONString();
-        } else {
-            return UnifiedResponse.Failed("ITEM_NOT_EXIST").toJSONString();
+    public String ChangeProperty(@RequestParam String property, @RequestParam String value, @RequestParam int id) {
+        Map<String, String> allowedProperties = Map.of(
+                "title", "title",
+                "detail", "detail",
+                "type", "type",
+                "nowprice", "nowprice",
+                "rawprice", "rawprice"
+        );
+        if (!allowedProperties.containsKey(property)) {
+            return "error: invalid property";
         }
+        String column = allowedProperties.get(property);
+        if (Objects.equals(property, "title") || Objects.equals(property, "detail"))
+            jdbcTemplate.update("update items set " + column + " = ? where id = ?", value, id);
+        else if (Objects.equals(property, "type"))
+            jdbcTemplate.update("update items set type = ? where id = ?", Integer.parseInt(value), id);
+        else
+            jdbcTemplate.update("update items set " + column + " = ? where id = ?", Double.parseDouble(value), id);
+        return UnifiedResponse.SuccessSignal().toJSONString();
     }
 
-    @GetMapping("/get_items")
+    @GetMapping("/get_all")
     @CrossOrigin(origins = "*")
     public String GetItems() {
         CheckDatabaseStatus();
-        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM `items` WHERE type = 1");
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM `items`");
         JSONObject result = new JSONObject();
         JSONArray resultSet = new JSONArray();
         while (sqlRowSet.next()) {
@@ -69,6 +71,26 @@ public class ItemsController {
         }
         result.put("data", resultSet);
         return UnifiedResponse.Success(result).toJSONString();
+    }
+
+    @PostMapping("/add")
+    @CrossOrigin(origins = "*")
+    public String AddItem(
+            @RequestParam("imgurl") String imgurl,
+            @RequestParam("title") String title,
+            @RequestParam("detail") String detail,
+            @RequestParam("nowprice") String nowprice,
+            @RequestParam("rawprice") String rawprice,
+            @RequestParam("categories") String categories,
+            @RequestParam("type") int type,
+            @RequestParam("introductions") String introductions) {
+        CheckDatabaseStatus();
+        String sql = """
+                INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)""";
+        jdbcTemplate.update(sql, imgurl, title, detail, Float.parseFloat(nowprice), Float.parseFloat(rawprice), categories, type, introductions);
+        return UnifiedResponse.SuccessSignal().toJSONString();
+
     }
 
     private void CheckDatabaseStatus() {

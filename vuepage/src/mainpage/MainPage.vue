@@ -1,14 +1,14 @@
 <script setup>
-import axios from 'axios';
+
 import ShoppingItem from './ShoppingItem.vue';
-import utils from '../utils';
 import { ref } from 'vue';
 import Topbar from '@/Topbar.vue';
+import wnetwork from '@/wnetwork';
 
 var items_data = ref([])
-axios.get(utils.host + "/get_items").then(
+wnetwork.get("/get_items").then(
     response => {
-        items_data.value = response.data.data
+        items_data.value = response.data.data.data
     }
 )
 </script>
@@ -19,7 +19,8 @@ axios.get(utils.host + "/get_items").then(
     </Topbar>
     <div class="items_container">
         <ShoppingItem v-for="item in items_data" :imgurl="item.imgurl" :detail="item.detail" :title="item.title"
-            :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.id" :type="item.type" />
+            :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.id" :type="item.type"
+            :isbackground="false"></ShoppingItem>
     </div>
 </template>
 

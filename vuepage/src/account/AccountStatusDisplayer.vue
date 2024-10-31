@@ -1,6 +1,6 @@
 <script setup>
-import utils from '@/utils';
-import axios from 'axios';
+
+import wnetwork from '@/wnetwork';
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -8,12 +8,14 @@ const uuid = ref(localStorage.getItem("userid"))
 const userdata = ref({})
 const router = useRouter()
 if (uuid.value != null) {
-    axios.get(utils.host + "/get_user?userid=" + uuid.value).then(response => {
-        userdata.value = response.data.result
+    wnetwork.get("/get_user?userid=" + uuid.value).then(response => {
+        userdata.value = response.data.data.result
     })
 }
 function login() {
-    router.push('login')
+    router.push({
+        name:"login"
+    })
 }
 function logout() {
     localStorage.removeItem("uuid")
@@ -33,7 +35,7 @@ function logout() {
                 <template #dropdown>
                     <ElDropdownMenu>
                         <ElDropdownItem>
-                            <RouterLink to="orders">订单</RouterLink>
+                            <RouterLink :to="{'name':'orders'}">订单</RouterLink>
                         </ElDropdownItem>
                         <ElDropdownItem @click="logout">
                             登出

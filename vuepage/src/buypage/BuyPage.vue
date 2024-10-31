@@ -1,8 +1,9 @@
 <script setup>
 import Topbar from '@/Topbar.vue';
-import utils from '@/utils';
-import axios from 'axios';
-import { ElButton } from 'element-plus';
+
+import wnetwork from '@/wnetwork';
+
+import { ElButton, ElNotification } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
@@ -12,13 +13,19 @@ const props = defineProps([
 ])
 const data = ref({})
 
-axios.get(utils.host + "/get_item?id=" + route.params.id).then(response => {
-    data.value = response.data.result
+wnetwork.get("/get_item?id=" + route.params.id).then(response => {
+    data.value = response.data.data.result
 })
 
 function buyit() {
     if (localStorage.getItem("userid") == null) {
-        router.push("login")
+        ElNotification({
+            title: "请先登录！",
+            type: "warning"
+        })
+        router.push({
+            name: "login"
+        })
     }
     else {
         router.push({

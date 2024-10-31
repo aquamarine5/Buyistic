@@ -1,13 +1,24 @@
 <script setup>
+import '@/assets/fonts/font.css';
+import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
+const router = useRouter()
+function gotoHome() {
+    router.push({
+        name: "app"
+    })
+}
 </script>
 
 <template>
-    <div class="app_topbar">
-        <div class="app_title">
-            <slot></slot>
+    <div>
+        <div class="app_topbar">
+            <div class="app_title" @click="gotoHome">
+                <slot></slot>
+            </div>
+            <AccountStatusDisplayer />
         </div>
-        <AccountStatusDisplayer />
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank">冀ICP备2024089369号</a>
     </div>
 </template>
 
@@ -19,6 +30,8 @@ import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
 }
 
 .app_title {
+    font-family: Gilroy;
+    cursor: pointer;
     white-space: nowrap;
     padding-top: 15px;
     padding-inline: 20px;

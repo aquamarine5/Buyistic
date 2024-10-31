@@ -1,7 +1,7 @@
 package org.aquarngd.buyistic.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.fastjson2.JSONObject;
+import org.aquarngd.buyistic.UnifiedResponse;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +15,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 @RestController
-public class AccountController {
+public class AccountsController {
     final
     JdbcTemplate jdbcTemplate;
 
-    public AccountController(JdbcTemplate jdbcTemplate) {
+    public AccountsController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -48,7 +48,7 @@ public class AccountController {
                     Map.entry("userid", uuid.toString()))));
         }
 
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
     @GetMapping("/get_user")
     @CrossOrigin(origins = "*")
@@ -59,8 +59,10 @@ public class AccountController {
             response.put("result", new JSONObject(Map.ofEntries(
                     Map.entry("name",sqlRowSet.getString("username"))
             )));
+        }else{
+            return UnifiedResponse.Failed("User not found").toJSONString();
         }
-        return response.toJSONString();
+        return UnifiedResponse.Success(response).toJSONString();
     }
     private void CheckDatabase() {
         if (!IsDatabaseExisted())
