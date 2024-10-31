@@ -8,10 +8,8 @@ import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElInputNumber, ElNotific
 import wnetwork from '@/wnetwork';
 
 wnetwork.get("/background/items/get_all").then(response => {
-    itemsdata.value = response.data.data
-    isdataready.value = true
+    itemsdata.value = response.data.data.data
 })
-
 
 </script>
 
@@ -22,8 +20,10 @@ wnetwork.get("/background/items/get_all").then(response => {
     <ElCollapse>
         <ElCollapseItem title="新建商品" name="new">
             <div class="just_flex">
-                上传封面图
+                封面图：
+                <span>{{ imgurl }}</span>
                 <ElButton type="primary" @click="uploadButtonClicked">
+                    上传
                     <input type="file" ref="uploadInput" style="display: none;" @change="uploadInputChanged">
                 </ElButton>
             </div>
@@ -48,7 +48,7 @@ wnetwork.get("/background/items/get_all").then(response => {
             </ElButton>
         </ElCollapseItem>
     </ElCollapse>
-    <div class="bgitems_container" v-if="isdataready">
+    <div class="bgitems_container">
         <ShoppingItem v-for="item in itemsdata" :imgurl="item.imgurl" :detail="item.detail" :title="item.title"
             :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.id" :type="item.type"
             :isbackground="true">
@@ -64,36 +64,36 @@ wnetwork.get("/background/items/get_all").then(response => {
 </style>
 
 <script>
-const isdataready = ref(false)
 const itemsdata = ref({})
 const reftitle = ref("")
 const refdetail = ref("")
 const refnowprice = ref(1)
 const refrawprice = ref(1)
-var imgurl = null
 export default {
     data() {
         return {
+            imgurl:ref(""),
             uploadButtonClicked: () => {
                 this.$refs.uploadInput.click()
             },
-            uploadInputChanged: () => {
+            uploadInputChanged: (event) => {
                 let formData = new FormData()
-                formData.append("file", this.$refs.uploadInput.files[0])
-                wnetwork.post("/background/file/upload/", formData).then(response => {
-                    imgurl = wnetwork.IMGHOST + response.data.filename
+                console.log(event.target.files[0])
+                formData.append("file", event.target.files[0])
+                wnetwork.post("/background/file/upload", formData).then(response => {
+                    this.imgurl = wnetwork.IMGHOST + response.data.data.filename
                 })
             },
             addItem: () => {
-                if (reftitle.value == "" || imgurl == null) {
+                if (reftitle.value == "" || this.imgurl == null) {
                     ElNotification({
-                        title: "必填项不能为空！",
+                        title: "必填项（标题和封面图）不能为空！",
                         type: "error"
                     })
                     return
                 }
                 let formdata = new FormData()
-                formdata.append("imgurl", imgurl)
+                formdata.append("imgurl", this.imgurl.value)
                 formdata.append("title", reftitle.value)
                 formdata.append("detail", refdetail.value)
                 formdata.append("nowprice", refnowprice.value)
@@ -102,13 +102,7 @@ export default {
                 formdata.append("categories", "")
                 formdata.append("introductions", "")
                 wnetwork.post("/background/items/add", formdata).then(response => {
-                    if (response.data.data.result == "OK") {
-                        location.reload()
-                        ElNotification({
-                            title: "添加商品成功！",
-                            type: "success"
-                        })
-                    }
+                    location.reload()
                 })
             }
         }

@@ -85,19 +85,11 @@ public class ItemsBackgroundController {
             @RequestParam("type") int type,
             @RequestParam("introductions") String introductions) {
         CheckDatabaseStatus();
-        JSONObject result = new JSONObject();
-        try {
-            String sql = """
-                    INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?)""";
-            jdbcTemplate.update(sql, imgurl, title, detail, Float.parseFloat(nowprice), Float.parseFloat(rawprice), categories, type, introductions);
-            result.put("result", "OK");
-            return result.toJSONString();
-        } catch (Exception e) {
-            result.put("result", "ERR");
-            result.put("error_msg", e.getMessage());
-            return result.toJSONString();
-        }
+        String sql = """
+                INSERT INTO `items` (imgurl, title, detail, nowprice, rawprice, categories, type, introductions) VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)""";
+        jdbcTemplate.update(sql, imgurl, title, detail, Float.parseFloat(nowprice), Float.parseFloat(rawprice), categories, type, introductions);
+        return UnifiedResponse.SuccessSignal().toJSONString();
 
     }
 

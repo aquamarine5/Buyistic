@@ -59,6 +59,8 @@ public class AccountsController {
             response.put("result", new JSONObject(Map.ofEntries(
                     Map.entry("name",sqlRowSet.getString("username"))
             )));
+        }else{
+            return UnifiedResponse.Failed("User not found").toJSONString();
         }
         return UnifiedResponse.Success(response).toJSONString();
     }

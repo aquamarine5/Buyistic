@@ -7,13 +7,13 @@ import { ref } from 'vue';
 
 const property = ref()
 const username = ref("")
-wnetwork.get("/get_user?userid=" + props.userid).then(response => {
-    username.value = response.data.data.result.name
-})
 const props = defineProps([
     "orderid",
     "userid"
 ])
+wnetwork.get("/get_user?userid=" + props.userid).then(response => {
+    username.value = response.data.data.result.name
+})
 const statusMap = {
     0: "已取消",
     1: "已下单未付款",
@@ -32,7 +32,7 @@ function edit() {
 
 <template>
     <div class="orderbg_userinfo">
-        用户: {{ props.userid }}
+        用户: {{ username }}
     </div>
     <ElCollapse>
         <ElCollapseItem title="更改信息" name="edit">
