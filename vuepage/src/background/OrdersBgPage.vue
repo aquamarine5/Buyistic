@@ -10,7 +10,7 @@ wnetwork.get("/background/orders/get_all").then(response => {
 </script>
 
 <template>
-    <Topbar>
+    <Topbar :isbackground="true">
         Buyistic: 全部订单
     </Topbar>
     <div class="orders_container">

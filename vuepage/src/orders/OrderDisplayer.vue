@@ -30,7 +30,7 @@ wnetwork.get("/get_order?orderid=" + props.orderid).then(response => {
 })
 
 function cancelOrder() {
-    wnetwork.get("/cancel_order?orderid=" + props.orderid).then(response => {
+    wnetwork.get("/cancel_order?orderid=" + props.orderid).then(() => {
         location.reload()
     })
 }

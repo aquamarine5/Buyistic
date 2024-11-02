@@ -16,7 +16,7 @@ wnetwork.get("/orders?userid=" + localStorage.getItem("userid")).then(response =
         Buyistic: 全部订单
     </Topbar>
     <div class="orders_container">
-        <div class="orders_item" v-for="order in ordersData">
+        <div class="orders_item" v-for="order in ordersData" :key="order.orderid">
             <OrderDisplayer :orderid="order.orderid" :isbackground="false" />
         </div>
     </div>

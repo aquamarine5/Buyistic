@@ -20,7 +20,7 @@ wnetwork.get("/get_items").then(
     <div class="items_container">
         <ShoppingItem v-for="item in items_data" :imgurl="item.imgurl" :detail="item.detail" :title="item.title"
             :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.id" :type="item.type"
-            :isbackground="false"></ShoppingItem>
+            :isbackground="false" :key="item.id"></ShoppingItem>
     </div>
 </template>
 

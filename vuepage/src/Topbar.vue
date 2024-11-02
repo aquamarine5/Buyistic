@@ -1,8 +1,12 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
 import '@/assets/fonts/font.css';
 import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
 const router = useRouter()
+const props=defineProps([
+    "isbackground"
+])
 function gotoHome() {
     router.push({
         name: "app"
@@ -12,7 +16,7 @@ function gotoHome() {
 
 <template>
     <div>
-        <div class="app_topbar">
+        <div class="app_topbar" :style="props.isbackground?'background-color: chocolate;':''">
             <div class="app_title" @click="gotoHome">
                 <slot></slot>
             </div>
@@ -27,6 +31,7 @@ function gotoHome() {
     background-color: blueviolet;
     display: flex;
     align-items: center;
+    border-radius: 0 0 10px 10px;
 }
 
 .app_title {

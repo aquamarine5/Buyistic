@@ -8,9 +8,6 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()
 const route = useRoute()
-const props = defineProps([
-    "id"
-])
 const data = ref({})
 
 wnetwork.get("/get_item?id=" + route.params.id).then(response => {

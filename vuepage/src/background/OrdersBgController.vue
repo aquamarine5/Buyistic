@@ -2,7 +2,7 @@
 
 import wnetwork from '@/wnetwork';
 
-import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
+import { ElButton, ElCollapse, ElCollapseItem, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';
 
 const property = ref()
@@ -23,7 +23,7 @@ const statusMap = {
 }
 function edit() {
     wnetwork.get(
-        "/background/orders/change_status?orderid=" + props.orderid + "&status=" + property.value).then(response => {
+        "/background/orders/change_status?orderid=" + props.orderid + "&status=" + property.value).then(() => {
             property.value = ""
             location.reload()
         })

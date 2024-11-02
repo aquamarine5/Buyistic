@@ -16,7 +16,7 @@ wnetwork.get("/get_item?id=" + useRoute().params.id).then(response => {
 })
 function afterpay() {
     wnetwork.get("/buyit?userid="
-        + localStorage.getItem("userid") + "&itemid=" + route.params.id + "&price=" + itemData.value.nowprice).then(response => {
+        + localStorage.getItem("userid") + "&itemid=" + route.params.id + "&price=" + itemData.value.nowprice).then(() => {
             ElNotification({
                 title: "购买成功！",
                 type: "success"

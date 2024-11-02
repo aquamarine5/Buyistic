@@ -1,7 +1,7 @@
 <script setup>
 
 import wnetwork from '@/wnetwork';
-import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElNotification, ElOption, ElSelect } from 'element-plus';
+import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';
 const property = ref("")
 const changedvalue = ref("")
@@ -18,7 +18,7 @@ const options = {
 function edit() {
     wnetwork.get(
         "/background/items/change_property?property=" + property.value +
-        "&value=" + changedvalue.value + "&id=" + props.itemid).then(response => {
+        "&value=" + changedvalue.value + "&id=" + props.itemid).then(() => {
             property.value = ""
             changedvalue.value = ""
             location.reload()

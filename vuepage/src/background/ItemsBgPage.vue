@@ -14,7 +14,7 @@ wnetwork.get("/background/items/get_all").then(response => {
 </script>
 
 <template>
-    <Topbar>
+    <Topbar :isbackground="true">
         Buyistic: 商品后台
     </Topbar>
     <ElCollapse>
@@ -51,7 +51,7 @@ wnetwork.get("/background/items/get_all").then(response => {
     <div class="bgitems_container">
         <ShoppingItem v-for="item in itemsdata" :imgurl="item.imgurl" :detail="item.detail" :title="item.title"
             :nowprice="item.nowprice" :rawprice="item.rawprice" :itemid="item.id" :type="item.type"
-            :isbackground="true">
+            :isbackground="true" :key="item.id">
             <ItemsBgController :itemid="item.id" />
         </ShoppingItem>
     </div>
@@ -101,7 +101,7 @@ export default {
                 formdata.append("type", 1)
                 formdata.append("categories", "")
                 formdata.append("introductions", "")
-                wnetwork.post("/background/items/add", formdata).then(response => {
+                wnetwork.post("/background/items/add", formdata).then(() => {
                     location.reload()
                 })
             }
