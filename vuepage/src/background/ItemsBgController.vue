@@ -1,5 +1,8 @@
+<!--
+ * @Anthor: aquamarine5 aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
-
 import wnetwork from '@/wnetwork';
 import { ElButton, ElCollapse, ElCollapseItem, ElInput, ElOption, ElSelect } from 'element-plus';
 import { ref } from 'vue';

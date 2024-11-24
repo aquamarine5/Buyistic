@@ -1,3 +1,7 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
 import Topbar from '@/Topbar.vue';
 
@@ -37,7 +41,7 @@ function buyit() {
 
 <template>
     <Topbar>
-        Buyistic: 详情
+        Buyistic: 商品详情
     </Topbar>
     <div class="buypage_container" v-if="data != {}">
         <img class="buypage_img" :src="data.imgurl">
@@ -57,7 +61,7 @@ function buyit() {
                 </div>
             </div>
         </div>
-        <ElButton type="primary" @click="buyit">
+        <ElButton v-wave type="primary" @click="buyit">
             购买
         </ElButton>
     </div>
@@ -74,6 +78,7 @@ function buyit() {
 .buypage_img {
     max-width: 300px;
     max-height: 300px;
+    border-radius: 20px;
 }
 
 .buypage_title {
@@ -90,12 +95,15 @@ function buyit() {
     display: flex;
     margin-block: 8px;
     align-items: center;
+    font-family: "Gilroy", sans-serif;
 }
 
 .buypage_rawprice {
     text-decoration: line-through;
     padding-left: 5px;
+    padding-top: 5px;
     font-size: smaller;
+    font-family: "GilroyRegular", sans-serif;
     color: gray;
 }
 

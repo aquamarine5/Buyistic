@@ -1,10 +1,13 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
 import Topbar from '@/Topbar.vue';
-
-
 import { ref } from 'vue';
 import OrderDisplayer from './OrderDisplayer.vue';
 import wnetwork from '@/wnetwork';
+
 const ordersData = ref({})
 wnetwork.get("/orders?userid=" + localStorage.getItem("userid")).then(response => {
     ordersData.value = response.data.data.result

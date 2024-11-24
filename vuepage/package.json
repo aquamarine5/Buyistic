@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --mode development",
     "build": "vite build --mode production",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "remote-deploy.cmd",
+    "test": "vite --mode production"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

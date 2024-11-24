@@ -2,3 +2,8 @@
     font-family: "Gilroy";
     src: url("gilroy-bold.otf");
 }
+
+@font-face {
+    font-family: "GilroyRegular";
+    src: url("gilroy-regular.otf");
+}

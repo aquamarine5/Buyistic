@@ -1,5 +1,12 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
+<!--
+ * @Anthor: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
-
 import wnetwork from '@/wnetwork';
 import { ElButton, ElDropdown, ElDropdownItem, ElDropdownMenu, ElIcon } from 'element-plus';
 import { ref } from 'vue';
@@ -14,7 +21,7 @@ if (uuid.value != null) {
 }
 function login() {
     router.push({
-        name:"login"
+        name: "login"
     })
 }
 function logout() {
@@ -35,7 +42,7 @@ function logout() {
                 <template #dropdown>
                     <ElDropdownMenu>
                         <ElDropdownItem>
-                            <RouterLink :to="{'name':'orders'}">订单</RouterLink>
+                            <RouterLink :to="{ 'name': 'orders' }">订单</RouterLink>
                         </ElDropdownItem>
                         <ElDropdownItem @click="logout">
                             登出
@@ -45,14 +52,15 @@ function logout() {
             </ElDropdown>
         </div>
         <div class="accdper_nologin" v-else>
-            <ElButton type="primary" @click="login">登录</ElButton>
+            <ElButton v-wave type="primary" @click="login">登录</ElButton>
         </div>
     </div>
 </template>
 <style>
-ElDropdownItem{
+ElDropdownItem {
     cursor: pointer;
 }
+
 .accdper_username {
     color: white;
     cursor: pointer;
