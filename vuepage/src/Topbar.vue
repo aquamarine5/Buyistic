@@ -4,7 +4,7 @@ import '@/assets/fonts/font.css';
 import { useRouter } from 'vue-router';
 import AccountStatusDisplayer from './account/AccountStatusDisplayer.vue';
 const router = useRouter()
-const props=defineProps([
+const props = defineProps([
     "isbackground"
 ])
 function gotoHome() {
@@ -16,13 +16,12 @@ function gotoHome() {
 
 <template>
     <div>
-        <div class="app_topbar" :style="props.isbackground?'background-color: chocolate;':''">
+        <div class="app_topbar" :style="props.isbackground ? 'background-color: chocolate;' : ''">
             <div class="app_title" @click="gotoHome">
                 <slot></slot>
             </div>
             <AccountStatusDisplayer />
         </div>
-        <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank">冀ICP备2024089369号</a>
     </div>
 </template>
 
