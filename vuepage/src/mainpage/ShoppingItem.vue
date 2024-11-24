@@ -31,7 +31,7 @@ function jumpToBuyPage() {
     <div class="shopping_item">
         <img class="shopping_img" :src="props.imgurl">
         <div class="shopping_content">
-            <div class="shopping_text">
+            <div class="shopping_text" @click="jumpToBuyPage">
                 <div class="shopping_title">
                     {{ props.title }}
                 </div>
@@ -113,6 +113,10 @@ function jumpToBuyPage() {
     font-family: "Gilroy", sans-serif;
 }
 
+.shopping_text {
+    cursor: pointer;
+}
+
 .shopping_nowprice {
     font-weight: 800;
     color: red;
@@ -121,9 +125,11 @@ function jumpToBuyPage() {
 
 .shopping_rawprice {
     font-weight: 400;
+    padding-top: 5px;
     color: gray;
     font-size: smaller;
     text-decoration: line-through;
+    font-family: "GilroyRegular", sans-serif;
     padding-left: 6px;
 }
 </style>

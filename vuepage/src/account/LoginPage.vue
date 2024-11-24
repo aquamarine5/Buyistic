@@ -101,7 +101,18 @@ function gotoapp() {
 
 </template>
 
-<style>
+<style scoped>
+.login_response_text {
+    padding-inline: 4px;
+}
+
+.login_response {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    padding-top: 8px;
+}
+
 .login_btns {
     display: flex;
     align-items: center;
@@ -132,7 +143,6 @@ function gotoapp() {
     background-size: cover;
     background-position: center;
     opacity: 0.3;
-    /* 设置背景图的透明度 */
     z-index: -1;
 }
 

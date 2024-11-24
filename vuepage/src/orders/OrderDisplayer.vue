@@ -92,5 +92,6 @@ function cancelOrder() {
 .order_price {
     color: red;
     font-weight: 600;
+    font-family: "Gilroy", sans-serif;
 }
 </style>

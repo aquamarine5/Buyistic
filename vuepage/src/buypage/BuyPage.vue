@@ -101,7 +101,9 @@ function buyit() {
 .buypage_rawprice {
     text-decoration: line-through;
     padding-left: 5px;
+    padding-top: 5px;
     font-size: smaller;
+    font-family: "GilroyRegular", sans-serif;
     color: gray;
 }
 

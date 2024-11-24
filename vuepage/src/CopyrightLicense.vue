@@ -39,6 +39,7 @@ function goto() {
 .copyright_container {
     display: flex;
     width: 100%;
+    font-family: "GilroyRegular", sans-serif;
     justify-content: center;
     flex-direction: column;
     align-items: center;
