@@ -1,3 +1,7 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
 import { ElButton } from 'element-plus';
 import { useRouter } from 'vue-router';
@@ -27,7 +31,7 @@ function jumpToBuyPage() {
     <div class="shopping_item">
         <img class="shopping_img" :src="props.imgurl">
         <div class="shopping_content">
-            <div class="shopping_text">
+            <div class="shopping_text" @click="jumpToBuyPage">
                 <div class="shopping_title">
                     {{ props.title }}
                 </div>
@@ -55,7 +59,7 @@ function jumpToBuyPage() {
                 <slot></slot>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -72,8 +76,9 @@ function jumpToBuyPage() {
 
 .shopping_img {
     padding: 6px;
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 20px;
 }
 
 .shopping_controller {
@@ -83,7 +88,6 @@ function jumpToBuyPage() {
 .shopping_buttons {
     margin-left: auto;
     justify-self: flex-end;
-
 }
 
 .shopping_content {
@@ -93,9 +97,11 @@ function jumpToBuyPage() {
 
 .shopping_title {
     font-weight: 600;
+    padding-top: 5px;
 }
 
 .shopping_detail {
+    padding-top: 3px;
     font-weight: 400;
     color: gray;
     font-size: small;
@@ -103,19 +109,27 @@ function jumpToBuyPage() {
 
 .shopping_price {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    font-family: "Gilroy", sans-serif;
+}
+
+.shopping_text {
+    cursor: pointer;
 }
 
 .shopping_nowprice {
     font-weight: 800;
     color: red;
+    font-size: larger;
 }
 
 .shopping_rawprice {
     font-weight: 400;
+    padding-top: 5px;
     color: gray;
     font-size: smaller;
     text-decoration: line-through;
+    font-family: "GilroyRegular", sans-serif;
     padding-left: 6px;
 }
 </style>

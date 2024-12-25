@@ -1,3 +1,7 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
 import OrdersBgController from '@/background/OrdersBgController.vue';
 
@@ -60,10 +64,12 @@ function cancelOrder() {
     </div>
 </template>
 <style>
-.order_img{
+.order_img {
     max-width: 200px;
     max-height: 200px;
+    border-radius: 20px;
 }
+
 .order_container {
     display: flex;
     margin: 6px;
@@ -86,5 +92,6 @@ function cancelOrder() {
 .order_price {
     color: red;
     font-weight: 600;
+    font-family: "Gilroy", sans-serif;
 }
 </style>

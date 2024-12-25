@@ -1,8 +1,14 @@
+<!--
+ * @Author: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
+<!--
+ * @Anthor: aquamarine5 && aquamarine5_@outlook.com
+ * Copyright (c) 2024 by @aquamarine5, RC. All Rights Reversed.
+-->
 <script setup>
 import Topbar from '@/Topbar.vue';
-
 import wnetwork from '@/wnetwork';
-
 import { ElButton, ElCheckbox, ElIcon, ElInput, ElNotification } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -12,15 +18,22 @@ const input_password = ref("")
 const showpassword = ref(false)
 const response = ref({})
 const showresponse = ref(false)
-const router=useRouter()
+const router = useRouter()
 function login() {
     let formdata = new FormData()
-    if(input_username.value==null || input_username.value==""){
+    if (input_username.value == null || input_username.value == "") {
         ElNotification({
-            title:"用户名不能为空！",
-            type:"warning"
+            title: "用户名不能为空！",
+            type: "warning"
         })
-      return
+        return
+    }
+    if (input_password.value == null || input_password.value == "") {
+        ElNotification({
+            title: "密码不能为空！",
+            type: "warning"
+        })
+        return
     }
     formdata.append("username", input_username.value)
     formdata.append("password", input_password.value)
@@ -33,7 +46,7 @@ function login() {
     })
 }
 
-function gotoapp(){
+function gotoapp() {
     router.back()
 }
 </script>
@@ -47,12 +60,15 @@ function gotoapp(){
         <ElInput v-model="input_username" class="login_input" placeholder="输入用户名" />
         <ElInput v-model="input_password" :type="showpassword ? 'text' : 'password'" placeholder="输入密码"
             class="login_input" />
-        <ElCheckbox v-model="showpassword">
-            显示密码
-        </ElCheckbox>
-        <ElButton type="primary" @click="login">
-            登录
-        </ElButton>
+        <div class="login_btns">
+
+            <ElCheckbox v-model="showpassword">
+                显示密码
+            </ElCheckbox>
+            <ElButton type="primary" @click="login">
+                登录
+            </ElButton>
+        </div>
         <div class="login_tips">
             <ElIcon>
                 <InfoFilled />
@@ -85,8 +101,60 @@ function gotoapp(){
 
 </template>
 
-<style>
-.login_container{
-    margin: 16px;
+<style scoped>
+.login_response_text {
+    padding-inline: 4px;
+}
+
+.login_response {
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    padding-top: 8px;
+}
+
+.login_btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-inline: 10px;
+}
+
+.login_container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 16px;
+    z-index: 1;
+}
+
+.login_container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('http://aquamarine5.fun/img/login_splash.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.login_input {
+    margin-bottom: 10px;
+}
+
+.login_tips {
+    margin-top: 20px;
+    gap: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
 }
 </style>
