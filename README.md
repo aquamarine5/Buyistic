@@ -1,6 +1,7 @@
 # Buyistic
 > [!IMPORTANT]
 > 因为昂贵的服务器费用和几乎无人在意的原因，`aquamarine5.fun`的服务器资源已被释放且无法访问。
+
 ![Alt](https://repobeats.axiom.co/api/embed/0f7e9b27c609852e34a460922e6f2bfa73001491.svg "Repobeats analytics image")
 
 ## Setup
